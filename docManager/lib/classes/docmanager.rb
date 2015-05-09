@@ -39,7 +39,7 @@ class DocManager
 <a href="doctypes.rb">種類</a>
 <a href="docgroups.rb">分類</a>
 <a href="docdatas.rb">データ</a>
-<a href="doctusers.rb">ユーザー</a>
+<a href="docusers.rb">ユーザー</a>
 EOF
     
     wk = {
