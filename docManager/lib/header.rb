@@ -25,7 +25,8 @@ def test()
   #mdl = Model.new($db,"doctypes")
   
   wk = {}
-  wk["cont"] = $db.list_fields("doctypes")
+  #wk["cont"] = $db.list_fields("doctypes")
+  wk["cont"] = load_template(wk,"edit_doctype.html")
   
   html = load_template(wk, "page.html")
   puts html

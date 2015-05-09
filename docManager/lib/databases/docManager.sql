@@ -26,10 +26,12 @@ CREATE TABLE `doctypes`(
   note text
 );
 
+DROP TABLE `docgroups`;
 CREATE TABLE `docgroups`(
   id integer primary key,
-  name text,
+  doctype_id integer,
   docgroup_id integer,
+  name text,
   num integer,
   note text
 );
