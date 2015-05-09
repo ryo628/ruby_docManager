@@ -1,0 +1,51 @@
+* {
+	padding: 0px;
+	margin: 0px;
+}
+
+body {
+	background-color: #EEE;
+	text-align: center;
+}
+
+div {
+	border: 0px solid #F00;
+	text-align: left;
+}
+
+form * {
+	margin: 2px;
+	padding: 5px;
+}
+
+#page {
+	border: 0px solid #000;
+	width: 800px;
+	margin: 0px auto;
+}
+
+#head {
+	background-color: #DDD;
+	height: 100px;
+}
+
+#menu {
+/*
+	background-color: #6F6;
+*/
+	line-height: 50px;
+}
+
+#cont {
+/*
+	background-color: #66F;
+*/
+	height: 500px;
+}
+
+#foot {
+/*
+	background-color: #666;
+*/
+	line-height: 50px;
+}

@@ -2,5 +2,5 @@
 
 load 'lib/header.rb'
 
-main()
+test()
 
