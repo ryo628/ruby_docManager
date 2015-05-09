@@ -1,36 +1,33 @@
 # encoding: utf-8
 
 require 'cgi'
+require 'cgi/session'
+require 'sqlite3'
 
 $cgi = CGI.new()
+$session = CGI::Session.new($cgi)
 
-#$currentDir = Dir::pwd
+puts $cgi.header()
+
 $currentDir = Dir.getwd + "/lib/"
-#$currentDir = get_dir()
 
 $classDir = $currentDir + "classes/"
 $templateDir = $currentDir + "templates/"
 $databaseDir = $currentDir + "databases/"
 
-
-def load_classes()
-  
-  dir = $classDir + "*.rb"
-  #puts dir
-  
-  Dir::glob(dir).each {|f|
-    
-    load f
-    
-  }
-
-end
+#load $classDir + ""
+load $classDir + "tools.rb"
+load $classDir + "dbconnect_sqlite3.rb"
+load $classDir + "model.rb"
 
 def test()
   
-  puts $cgi.header()
+  #mdl = Model.new($db,"doctypes")
   
-  html = load_template({}, "page.html")
+  wk = {}
+  wk["cont"] = $db.list_fields("doctypes")
+  
+  html = load_template(wk, "page.html")
   puts html
   #puts "<p>Current Directory</p>"
   #puts $classDir
@@ -41,5 +38,21 @@ def test()
 
 end
 
-load_classes()
+$_GET = {}
+CGI::parse($cgi.query_string).each {|key, val|
+ $_GET[key] = val[0]
+}
+
+$_POST = {}
+$cgi.params.each {|key, val|
+  tmp = val[0]
+  $_POST[key] = tmp
+}
+
+$db_host = "localhost"
+$db_user = "root"
+$db_pass = "root"
+$db_name = "docManager"
+
+$db = DBConnect.new($db_host, $db_user, $db_pass, $databaseDir + $db_name)
 

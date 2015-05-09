@@ -2,13 +2,61 @@
 class Model
   
   def initialize(db, table)
+    set_value(db, table)
+  end
+  
+  def set_value(db, table)
     @db = db
     @table = table
+  end
+  
+  def count()
+    sql = "SELECT COUNT(*) AS num FROM `#{@table}`"
+    rs = @db.query(sql)
+    return rs[0]["num"]
+  end
+  
+  def get_max_id()
+    
+    sql = "SELECT MAX(id) AS id FROM `#{@table}`"
+    #debug(sql)
+    rs = @db.query(sql)
+    #debug("count = #{rs.length}")
+    return rs[0]["id"].to_i
+    
+  end
+  
+  def get_ids()
+    sql = "SELECT id FROM `#{@table}`"
+    return @db.query(sql)
+  end
+  
+  def get_value_by_id(field,id)
+    vals = get_data_by_id(id)
+    return vals[field]
+    #return "T_T"
+  end
+  
+  def get_random_data()
+    ids = get_ids()
+    cnt = ids.length
+    rs = get_data_by_id(ids[rand(cnt)]["id"])
+    return rs
   end
   
   def get_data_by_id(id)
     sql = "SELECT * FROM #{@table} WHERE id=#{id}"
     return @db.query(sql)[0]
+  end
+  
+  def get_data()
+    sql = "SELECT * FROM #{@table}"
+    return @db.query(sql)
+  end
+  
+  def get_data_with_order(column)
+    sql = "SELECT * FROM #{@table} ORDER BY #{column}"
+    return @db.query(sql)
   end
   
   def get_blank_data()
@@ -23,6 +71,8 @@ class Model
   
   def apply(values)
     
+    debug("<div>#{values.to_s}</div>")
+    
     if values.has_key?('id') then
       id = values['id'].to_s
     else
@@ -31,6 +81,7 @@ class Model
     
     if 1 > id.to_i
       values["id"] = get_max_id() + 1
+      debug(values["id"])
 	  #print "#{values["id"]}<br>"
       sql = insert(values)
     else
@@ -48,7 +99,7 @@ class Model
     
     col = ""
     val = ""
-    fields = @db.list_fields()
+    fields = @db.list_fields(@table)
     #debug_print rs.num_fields()
     
     fields.each do |fd|
@@ -59,7 +110,7 @@ class Model
           val += ","
         end
         col += fd
-        val += "'" + escape_string(values[fd].to_s) + "'"
+        val += "'" + @db.escape_string(values[fd].to_s) + "'"
       end
     end
     
@@ -73,7 +124,7 @@ class Model
     sql = "UPDATE `#{@table}` SET "
     col = ""
     
-    rs = @db.list_fields()
+    rs = @db.list_fields(@table)
     #debug_print "#{table}<br />"
     
     rs.each do |fd|
@@ -83,7 +134,7 @@ class Model
         if col != "" then
           col += ","
         end
-        col += "#{fd}='" + escape_string(values[fd].to_s) + "'"
+        col += "#{fd}='" + @db.escape_string(values[fd].to_s) + "'"
       end
     end
     
@@ -101,21 +152,46 @@ class Model
   end
   
   def setup()
+    
+    sql = "DROP TABLE `persons`"
+    #@db.execute(sql)
+    
     sql = <<EOF
 CREATE TABLE `persons`(
   id integer primary key,
   name text,
-  year integer,
+  year text,
   country text,
-  note text
+  note text,
+  photo text
 )
 EOF
     #@db.execute(sql)
+    
+    sql = "ALTER TABLE `persons` ADD COLUMN photo text"
+    #@db.execute(sql)
+    
+    sql = "DROP TABLE `words`"
+    #@db.execute(sql)
+    
     sql = <<EOF
 CREATE TABLE `words`(
   id integer primary key,
   person_id integer,
-  words text
+  japanese text,
+  english text
+)
+EOF
+    #@db.execute(sql)
+    
+    sql = "DROP TABLE `logs`"
+    #@db.execute(sql)
+    
+    sql = <<EOF
+CREATE TABLE `logs`(
+  id integer primary key,
+  time integer,
+  ip text
 )
 EOF
     #@db.execute(sql)

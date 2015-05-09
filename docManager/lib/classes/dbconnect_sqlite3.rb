@@ -9,7 +9,7 @@ class DBConnect
   end
   
   def open(host, user, pass, database)
-    dbfile = get_dir() + "#{database}.db"
+    dbfile = "#{database}.db"
     debug(dbfile)
     @db = SQLite3::Database.new(dbfile)
     #@db = SQLite3::Database.new("#{database}.db")

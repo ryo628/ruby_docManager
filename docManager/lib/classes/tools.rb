@@ -1,4 +1,4 @@
-$flg_debug = false
+$flg_debug = true
 
 def debug(txt)
   
