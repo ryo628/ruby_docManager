@@ -6,7 +6,7 @@ load 'lib/header.rb'
 begin
   
   obj = DocManager.new()
-  obj.doctypes()
+  obj.docdatas()
   
 rescue => ex
   

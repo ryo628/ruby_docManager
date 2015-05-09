@@ -35,8 +35,11 @@ class DocManager
   def output(title, html)
     
     menu = <<EOF
-<a href="./" target="_blank">TOP</a>
+<a href="./">TOP</a>
 <a href="doctypes.rb">種類</a>
+<a href="docgroups.rb">分類</a>
+<a href="docdatas.rb">データ</a>
+<a href="doctusers.rb">ユーザー</a>
 EOF
     
     wk = {
@@ -53,10 +56,38 @@ EOF
     
   end
   
+  def top()
+    
+    html = main()
+    output("文書管理",html)
+    
+  end
+  
   def doctypes()
     
     html = main()
     output("文書管理 - 種類",html)
+    
+  end
+  
+  def docgroups()
+    
+    html = main()
+    output("文書管理 - 分類",html)
+    
+  end
+  
+  def docdatas()
+    
+    html = main()
+    output("文書管理 - データ",html)
+    
+  end
+  
+   def docusers()
+    
+    html = main()
+    output("文書管理 - ユーザー",html)
     
   end
   

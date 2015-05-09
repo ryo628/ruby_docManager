@@ -63,3 +63,9 @@ CREATE TABLE `docdatas`(
   item20 text
 );
 
+CREATE TABLE `docusers`(
+  id integer primary key,
+  name text,
+  password text,
+  auth_type text
+);
