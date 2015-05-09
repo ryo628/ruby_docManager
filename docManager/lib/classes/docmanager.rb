@@ -1,0 +1,63 @@
+class DocManager
+  
+  def initialize()
+    
+  end
+  
+  def main()
+    
+    mode = $_POST["mode"]
+    
+    html = ""
+    
+    obj = DocTypes.new()
+    
+    case mode
+    when "edit_doctype"
+      debug("EDIT_DOCTYPE")
+      html += obj.edit($_POST["id"])
+    when "add_doctype"
+      debug("ADD_DOCTYPE")
+      html += obj.add()
+    when "apply_doctype"
+      debug("APPLY_DOCTYPE")
+      obj.apply($_POST)
+      html += obj.list_all()
+    else
+      debug("ELSE")
+      html += obj.list_all()
+    end
+    
+    return html
+    
+  end
+  
+  def output(title, html)
+    
+    menu = <<EOF
+<a href="./" target="_blank">TOP</a>
+<a href="doctypes.rb">種類</a>
+EOF
+    
+    wk = {
+      "title" => title,
+      "head" => title,
+      "menu" => menu,
+      "cont" => html,
+      "foot" => "&copy; きむらしのぶ"
+    }
+    
+    html = load_template(wk, "page.html")
+    puts html
+    #puts "work?"
+    
+  end
+  
+  def doctypes()
+    
+    html = main()
+    output("文書管理 - 種類",html)
+    
+  end
+  
+end

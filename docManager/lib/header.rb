@@ -19,25 +19,24 @@ $databaseDir = $currentDir + "databases/"
 load $classDir + "tools.rb"
 load $classDir + "dbconnect_sqlite3.rb"
 load $classDir + "model.rb"
+load $classDir + "doctypes.rb"
+load $classDir + "docmanager.rb"
 
 def test()
   
-  #mdl = Model.new($db,"doctypes")
+  obj = DocTypes.new()
   
   wk = {}
   #wk["cont"] = $db.list_fields("doctypes")
-  wk["cont"] = load_template(wk,"edit_doctype.html")
+  #wk["cont"] = load_template(wk,"edit_doctype.html")
+  wk["cont"] = obj.list_all()
   
   html = load_template(wk, "page.html")
   puts html
-  #puts "<p>Current Directory</p>"
-  #puts $classDir
   
-  #puts "<p>classes</p>"
-  
-  #puts get_dir()
-
 end
+
+$flg_debug = false
 
 $_GET = {}
 CGI::parse($cgi.query_string).each {|key, val|
