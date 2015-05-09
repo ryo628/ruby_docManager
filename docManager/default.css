@@ -28,47 +28,36 @@ div {
 	text-align: left;
 }
 
-form * {
+form input {
 	margin: 5px;
 	padding: 5px;
 }
 
 table.list {
 	border-collapse: collapse;
-	border: 0px solid #666;
-	width: 100%;
+	border: 2px solid #666;
+	width: 99%;
 }
 
 table.list th {
-	border: 0px solid #666;
-	padding: 10px 0px;
+	border: 1px solid #666;
+	padding: 5px 0px;
 	background-color: #DDD;
 }
 
 table.list td {
-	border-top: 0px solid #666;
-	padding: 10px 0px;
-	line-height: 120%;
+	border: 1px solid #666;
+	padding: 5px 0px;
 }
 
-#page {
-	border: 0px solid #F00;
-	width: 90%;
-	margin: 0px auto;
+table.edit {
+	border-collapse: collapse;
+	border: 0px solid #666;
 }
 
-#head {
-	background-color: #666;
-	position: fixed;
-	top: 0px;
-	width: 100%;
-}
-
-#head #page {
-	font-size: 24pt;
-	color: #FFF;
-	line-height: 100px;
-	font-weight: bold;
+table.edit th, table.edit td {
+  text-align: right;
+	padding: 5px;
 }
 
 #menu {
@@ -85,12 +74,25 @@ table.list td {
 #menu a {
 	text-decoration: none;
 	color: #000;
-	margin: 0px 20px 0px 0px;
+	margin: 0px 0px 0px 20px;
 	padding: 5px;
 }
 
 #menu a:hover {
 	color: #F00;
+}
+
+#head {
+	margin-top: 50px;
+  padding: 10px;
+  font-size: 18pt;
+  font-weight: bold;
+}
+
+#nuv {
+  width: 30%;
+  height: 400px;
+  float: left;
 }
 
 #cont {
@@ -99,95 +101,11 @@ table.list td {
 	overflow: auto;
 	height: 500px;
 */
-	margin-top: 50px;
-	padding: 10px 0px;
+  width: 69%;
+  float: right;
 }
 
 #cont h1 {
 	font-size: 18pt;
 }
 
-#foot {
-/*
-
-*/
-	border-top: 1px solid #666;
-	line-height:50px;
-	background-color: #CCC;
-}
-
-#foot * {
-	text-align: center;
-	line-height: 50px;
-}
-
-#top {
-/*
-	height: 500px;
-	margin: 0px auto;
-*/
-	border: 0px solid #000;
-	padding: 0px 0px 10px;
-	width: 100%;
-	float: right;
-}
-
-#top .ja {
-	font-size: 18pt;
-	line-height: 120%;
-	text-decoration: bold;
-	color: #000;
-	clear: both;
-	padding: 10px;
-}
-
-#top .en {
-	font-size: 12pt;
-	color: #999;
-	padding: 10px;
-}
-
-#top .name {
-/*
-	text-align: right;
-*/
-	font-size: 12pt;
-	padding: 10px;
-}
-
-#top .description {
-	font-size: 10pt;
-	color: #666;
-	padding: 0px 10px;
-}
-
-#top .years {
-	font-size: 10pt;
-	color: #666;
-	padding: 0px 10px;
-	font-family: sans-serif;
-}
-
-#top .cnt {
-/*
-	font-size: 12pt;
-	color: #999;
-*/
-	padding: 10px 0px;
-	float: right;
-}
-
-#top a * {
-	color: #666;
-/*
-	text-decoration: none;
-*/
-}
-
-#top a:hover {
-	color: #F66;
-}
-
-#scale {
-	display: none;
-}

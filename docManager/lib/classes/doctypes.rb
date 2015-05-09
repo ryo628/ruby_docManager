@@ -56,13 +56,11 @@ class DocTypes < Model
   def get_add_form()
     
     html = <<EOF
-<div style="padding: 5px;">
-  <form method='post'>
-    <input type="hidden" name="id" value="0" />
-    <input type="hidden" name="mode" value="add_doctype" />
-    <input type="submit" name="submit" value="追加" />
-  </form>
-</div>
+<form method='post'>
+  <input type="hidden" name="id" value="0" />
+  <input type="hidden" name="mode" value="add_doctype" />
+  <input type="submit" name="submit" value="追加" />
+</form>
 EOF
     return html
     
@@ -71,8 +69,7 @@ EOF
   def get_list_table(vals)
     
     debug("docTypes.get_list_table")
-    html = "<h1>文書種類</h1>"
-    html += get_add_form()
+    html = get_add_form()
     html += <<EOF
 <table class="list">
   <tr>

@@ -1,7 +1,7 @@
 class DocManager
   
   def initialize()
-    
+    @nav = ""
   end
   
   def main()
@@ -25,7 +25,7 @@ class DocManager
       html += obj.list_all()
     else
       debug("ELSE")
-      html += obj.list_all()
+      #html += obj.list_all()
     end
     
     return html
@@ -46,6 +46,7 @@ EOF
       "title" => title,
       "head" => title,
       "menu" => menu,
+      "nav" => @nav,
       "cont" => html,
       "foot" => "&copy; きむらしのぶ"
     }
@@ -66,6 +67,11 @@ EOF
   def doctypes()
     
     html = main()
+    
+    if html == "" then
+      obj = DocTypes.new()
+      html = obj.list_all()
+    end
     output("文書管理 - 種類",html)
     
   end
