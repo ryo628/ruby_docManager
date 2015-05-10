@@ -1,7 +1,7 @@
-class DocTypes < Model
+class DocGroups < Model
   
   def initialize()
-    set_value($db, "doctypes")
+    set_value($db, "docgroups")
   end
   
   def edit(id)
@@ -22,7 +22,10 @@ class DocTypes < Model
   
   def get_edit_form(vals)
     
-    html = load_template(vals, "edit_doctype.html")
+    typ = DocTypes.new()
+    vals["doctype_id"] = $_GET["doctype_id"]
+    vals["doctype_name"] = typ.get_name(vals["doctype_id"])
+    html = load_template(vals, "edit_docgroup.html")
     return html
     
   end
@@ -49,7 +52,8 @@ class DocTypes < Model
     
     #return get_list_table(get_data())
     #return get_list_table(get_data_with_order("name"))
-    return get_list_table(get_data_with_order("name"))
+    #return get_list_table(get_data_with_order("name"))
+    return get_list_table(get_data_by_value("doctype_id",$_GET["doctype_id"].to_i))
     
   end
   
@@ -73,7 +77,7 @@ EOF
     
     if vals.length > 0 then
     
-    html += <<EOF
+      html += <<EOF
 <table class="list">
   <tr>
     <th>文書名</th>

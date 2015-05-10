@@ -4,13 +4,13 @@ class DocManager
     @nav = ""
   end
   
-  def main()
+  def main(obj)
     
     mode = $_POST["mode"]
     
     html = ""
     
-    obj = DocTypes.new()
+    #obj = DocTypes.new()
     
     case mode
     when "edit_doctype"
@@ -20,6 +20,16 @@ class DocManager
       debug("ADD_DOCTYPE")
       html += obj.add()
     when "apply_doctype"
+      debug("APPLY_DOCTYPE")
+      obj.apply($_POST)
+      html += obj.list_all()
+    when "edit_docgroup"
+      debug("EDIT_DOCTYPE")
+      html += obj.edit($_POST["id"])
+    when "add_docgroup"
+      debug("ADD_DOCTYPE")
+      html += obj.add()
+    when "apply_docgroup"
       debug("APPLY_DOCTYPE")
       obj.apply($_POST)
       html += obj.list_all()
@@ -47,7 +57,7 @@ EOF
       "head" => title,
       "menu" => menu,
       "nav" => @nav,
-      "cont" => html,
+      "cont" => html + $_GET.to_s,
       "foot" => "&copy; きむらしのぶ"
     }
     
@@ -66,10 +76,9 @@ EOF
   
   def doctypes()
     
-    html = main()
-    
+    obj = DocTypes.new()
+    html = main(obj)
     if html == "" then
-      obj = DocTypes.new()
       html = obj.list_all()
     end
     output("文書管理 - 種類",html)
@@ -78,7 +87,17 @@ EOF
   
   def docgroups()
     
-    html = main()
+    obj = DocGroups.new()
+    html = main(obj)
+    if html == "" then
+      html = obj.list_all()
+    end
+    
+    typ = DocTypes.new()
+    typ.get_data_with_order("num").each do |row|
+      @nav += "<div><a href='docgroups.rb?doctype_id=#{row["id"]}'>#{row["name"]}</a></div>"
+    end
+    
     output("文書管理 - 分類",html)
     
   end

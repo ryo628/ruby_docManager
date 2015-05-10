@@ -55,8 +55,12 @@ table.edit {
 	border: 0px solid #666;
 }
 
-table.edit th, table.edit td {
+table.edit th {
   text-align: right;
+	padding: 5px;
+}
+
+table.edit td {
 	padding: 5px;
 }
 
@@ -89,10 +93,14 @@ table.edit th, table.edit td {
   font-weight: bold;
 }
 
-#nuv {
+#nav {
   width: 30%;
   height: 400px;
   float: left;
+}
+#nav div {
+  padding: 5px 0px 5px 10px;
+  border: 1px solid #FF0000;
 }
 
 #cont {

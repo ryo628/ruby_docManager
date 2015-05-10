@@ -1,0 +1,34 @@
+<form method="post">
+  <input type="hidden" name="id" value="_%id%_" />
+  <input type="hidden" name="mode" value="apply_docgroup" />
+  <table class="edit">
+    <tr>
+      <th>文書種類</th>
+      <td>
+        <input type="hidden" name="doctype_id" value="_%doctype_id%_" />
+        _%doctype_name%_
+      </td>
+    </tr>
+    <tr>
+      <th>上位グループ</th>
+      <td>_%docgroup_id%_</td>
+    </tr>
+    <tr>
+      <th>グループ名</th>
+      <td><input type="text" name="name" value="_%name%_" /></td>
+    </tr>
+    <tr>
+      <th>順番</th>
+      <td><input type="text" name="num" value="_%num%_" /></td>
+    </tr>
+    <tr>
+      <th>説明</th>
+      <td><input type="text" name="note" value="_%note%_" /></td>
+    </tr>
+    <tr>
+      <th>&nbsp;</th>
+      <td><input type="submit" name="submit" value="送信" /></td>
+    </tr>
+  </table>
+  
+</form>
