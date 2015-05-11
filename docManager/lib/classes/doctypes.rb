@@ -4,6 +4,13 @@ class DocTypes < Model
     set_value($db, "doctypes")
   end
   
+  def show(id)
+    
+    vals = get_data_by_id(id)
+    return get_show_form(vals)
+    
+  end
+  
   def edit(id)
     
     #vals = @mdl.get_data_by_id(id)
@@ -23,6 +30,13 @@ class DocTypes < Model
   def get_edit_form(vals)
     
     html = load_template(vals, "edit_doctype.html")
+    return html
+    
+  end
+  
+  def get_show_form(vals)
+    
+    html = load_template(vals, "show_doctype.html")
     return html
     
   end
