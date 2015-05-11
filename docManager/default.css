@@ -98,6 +98,11 @@ table.edit td {
   height: 400px;
   float: left;
 }
+#nav div.title {
+  padding: 5px 0px 5px 10px;
+  border-bottom: 1px solid #EEEEEE;
+}
+
 #nav div {
   padding: 5px 0px 5px 10px;
   border: 0px solid #FF0000;

@@ -14,10 +14,20 @@ class DocDatas < Model
     
   end
   
+  def show(id)
+    
+    #vals = @mdl.get_data_by_id(id)
+    vals = get_data_by_id(id)
+    $_GET["doctype_id"] = get_doctype_id(vals["docgroup_id"])
+    return get_show_form(vals)
+    
+  end
+  
   def add()
     
     #vals = @mdl.get_blank_data()
     vals = get_blank_data()
+    vals["docgroup_id"] = $_GET["docgroup_id"]
     return get_edit_form(vals)
     
   end
@@ -30,6 +40,22 @@ class DocDatas < Model
     
     doctype_id = $_GET["doctype_id"]
     html = load_template(vals, "edit_#{@type}_#{doctype_id}.html")
+    return html
+    
+  end
+  
+  def get_show_form(vals)
+    
+    grp = DocGroups.new()
+    
+    vals["docgroup_id"] = grp.get_name(vals["docgroup_id"])
+    
+    doctype_id = $_GET["doctype_id"]
+    html = load_template(vals, "show_#{@type}_#{doctype_id}.html")
+    
+    f = Files.new()
+    html += f.get_upload_form(vals["id"])
+    
     return html
     
   end
@@ -120,6 +146,7 @@ EOF
       <input type="hidden" name="id" value="#{row['id']}" />
       <input type="hidden" name="mode" value="edit_#{@type}" />
       <input type="submit" name="submit" value="編集" />
+      <input type="submit" name="submit" value="表示" onclick="this.form.mode.value='show_#{@type}';" />
     </form>
   </td>
 </tr>

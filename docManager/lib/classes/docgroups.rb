@@ -72,7 +72,7 @@ class DocGroups < Model
       html = <<EOF
 <form method='post'>
   <input type="hidden" name="id" value="0" />
-  <input type="hidden" name="mode" value="add_doctype" />
+  <input type="hidden" name="mode" value="add_docgroup" />
   <input type="submit" name="submit" value="追加" />
 </form>
 EOF
@@ -107,7 +107,7 @@ EOF
   <td align="center">
     <form method='post'>
       <input type="hidden" name="id" value="#{row['id']}" />
-      <input type="hidden" name="mode" value="edit_doctype" />
+      <input type="hidden" name="mode" value="edit_docgroup" />
       <input type="submit" name="submit" value="編集" />
     </form>
   </td>

@@ -35,6 +35,9 @@ class DocManager
       obj.apply($_POST)
       html += obj.list_all()
       
+    when "show_docdata"
+      debug("SHOW_DOCDATA")
+      html += obj.show($_POST["id"])
     when "edit_docdata"
       debug("EDIT_DOCDATA")
       html += obj.edit($_POST["id"])
@@ -45,6 +48,14 @@ class DocManager
       debug("APPLY_DOCDATA")
       obj.apply($_POST)
       html += obj.list_all()
+      
+    when "file_save"
+      debug("FILE_SAVE")
+      obj.save()
+    when "file_delete"
+      debug("FILE_DELETE")
+      obj.file_delete()
+      
     else
       debug("ELSE")
       #html += obj.list_all()
@@ -60,11 +71,13 @@ class DocManager
 <a href="./">TOP</a>
 <a href="doctypes.rb">種類</a>
 <a href="docgroups.rb">分類</a>
+<!--
 <a href="docdatas.rb">データ</a>
 <a href="docusers.rb">ユーザー</a>
+-->
 EOF
     
-    html += "<div style='clear: both;'>#{$_GET.to_s}</div>"
+    html += "<div style='clear: both;'>#{$_GET.to_s} #{RUBY_VERSION}</div>"
     
     wk = {
       "title" => title,
@@ -83,8 +96,9 @@ EOF
   
   def top()
     
-    html = main()
-    output("文書管理",html)
+    #html = main()
+    #output("文書管理",html)
+    docdatas()
     
   end
   
@@ -138,13 +152,15 @@ EOF
       html = obj.list_all()
     end
     
+    typ = DocTypes.new()
+    grp = DocGroups.new()
+    
     if doctype_id > 0 then
-      grp = DocGroups.new()
+      @nav += "<div class='title'><a href='docdatas.rb'>#{typ.get_name(doctype_id)}</a></div>"
       grp.get_data_by_value("doctype_id", doctype_id).each do |row|
         @nav += "<div><a href='docdatas.rb?doctype_id=#{doctype_id}&docgroup_id=#{row["id"]}'>#{row["name"]}</a></div>"
       end
     else
-      typ = DocTypes.new()
       typ.get_data_with_order("num").each do |row|
         @nav += "<div><a href='docdatas.rb?doctype_id=#{row["id"]}'>#{row["name"]}</a></div>"
       end
@@ -158,6 +174,16 @@ EOF
     
     html = main()
     output("文書管理 - ユーザー",html)
+    
+  end
+  
+  def files()
+    
+    obj = Files.new()
+    html = main(obj)
+    
+    $_POST["mode"] = "show_docdata"
+    docdatas()
     
   end
   

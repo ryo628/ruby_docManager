@@ -22,6 +22,7 @@ load $classDir + "model.rb"
 load $classDir + "doctypes.rb"
 load $classDir + "docgroups.rb"
 load $classDir + "docdatas.rb"
+load $classDir + "files.rb"
 load $classDir + "docmanager.rb"
 
 def test()
