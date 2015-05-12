@@ -60,6 +60,23 @@ class DocDatas < Model
     
   end
   
+  def get_find_form()
+    
+    html = <<EOF
+<form method="post">
+  <input type="hidden" name="mode" value="find_docdata" />
+  <table>
+    <tr>
+      <td><input type="text" name="word" value="" size=10 /></td>
+      <td><input type="submit" name="submit" value="検索" /></td>
+    </tr>
+  </table>
+</form>
+EOF
+    return html
+    
+  end
+  
   def get_name(id)
     return get_value_by_id("name", id)
   end
@@ -89,13 +106,29 @@ class DocDatas < Model
     #return get_list_table(get_data())
     #return get_list_table(get_data_with_order("name"))
     
+    opt = ""
+    
     docgroup_id = $_GET["docgroup_id"].to_i
     if docgroup_id > 0 then
-      vals = get_data_by_value("docgroup_id", docgroup_id)
+      sql = "SELECT * FROM #{@table} WHERE docgroup_id=#{docgroup_id} ORDER BY num DESC, id DESC;"
+      vals = @db.query(sql)
+      #vals = get_data_by_value("docgroup_id", docgroup_id)
     else
-      vals = get_data()
+      sql = "SELECT * FROM #{@table} ORDER BY id DESC LIMIT 10;"
+      vals = @db.query(sql)
+      #vals = get_data()
+      opt = "<h1>新着10件</h1>"
     end
     
+    return opt + get_list_table(vals)
+    
+  end
+  
+  def list_by_word()
+    
+    sql = "SELECT * FROM #{@table} WHERE title LIKE '%#{$_POST["word"]}%';"
+    vals = @db.query(sql)
+    #vals = get_data_by_value("title", $_POST["word"])
     return get_list_table(vals)
     
   end
@@ -129,24 +162,45 @@ EOF
     html += <<EOF
 <table class="list">
   <tr>
+    <th>NO</th>
     <th>件名</th>
-    <th>説明</th>
+    <th>作成</th>
+    <th>ファイル</th>
     <th>&nbsp;</th>
   </tr>
 EOF
     end
     
+    fl = Files.new()
+    typ = DocTypes.new()
+    grp = DocGroups.new()
+    
     vals.each do |row|
+      
+      grp_vals = grp.get_data_by_id(row["docgroup_id"])
+      grp_name = grp_vals["name"]
+      typ_name = typ.get_name(grp_vals["doctype_id"])
+      
+      psn = ""
+      case grp_vals["doctype_id"].to_i
+      when 1
+        psn = row["item03"]
+      when 2
+        psn = row["item05"]
+      end
+      
+      
       html += <<EOF
 <tr>
-  <td>#{row["title"]}</td>
-  <td>#{row["note"]}</td>
-  <td align="center">
+  <td align="center">#{row["num"]}</td>
+  <td><span style="font-size: 10pt;">[#{typ_name} - #{grp_name}]</span><br />#{row["title"]}</td>
+  <td align="center">#{psn}</td>
+  <td align="center" nowrap>#{fl.get_file_links(row["id"])}</td>
+  <td align="center" nowrap>
     <form method='post'>
       <input type="hidden" name="id" value="#{row['id']}" />
       <input type="hidden" name="mode" value="edit_#{@type}" />
-      <input type="submit" name="submit" value="編集" />
-      <input type="submit" name="submit" value="表示" onclick="this.form.mode.value='show_#{@type}';" />
+      <input type="submit" name="submit" value="編集" /><input type="submit" name="submit" value="表示" onclick="this.form.mode.value='show_#{@type}';" />
     </form>
   </td>
 </tr>

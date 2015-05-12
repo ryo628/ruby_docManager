@@ -1,31 +1,30 @@
-<form method="post">
+&nbsp;<form method="post" action="docdatas.rb">
   <input type="hidden" name="id" value="_%id%_" />
   <input type="hidden" name="mode" value="edit_docdata" />
   <table class="edit">
     <tr>
       <th>分類</th>
-      <td>_%docgroup_id%_</td>
+      <td colspan="3">_%docgroup_id%_</td>
     </tr>
     <tr>
       <th>件名</th>
-      <td>_%title%_</td>
+      <td colspan="3">_%title%_</td>
     </tr>
     <tr>
-      <th>順番</th>
-      <td>_%num%_</td>
+      <th>年度</th>
+      <td colspan="3">_%num%_</td>
     </tr>
     <tr>
-      <th>項目01</th>
-      <td><input type="text" name="item01" value="_%item01%_" /></td>
+      <th>起案日</th>
+      <td width=200>_%item01%_</td>
+      <th>決裁日</th>
+      <td>_%item02%_</td>
     </tr>
     <tr>
-      <th>項目02</th>
-      <td><input type="text" name="item02" value="_%item02%_" /></td>
+      <th>起案者</th>
+      <td colspan="3">_%item03%_</td>
     </tr>
-    <tr>
-      <th>項目03</th>
-      <td><input type="text" name="item03" value="_%item03%_" /></td>
-    </tr>
+<!--
     <tr>
       <th>項目04</th>
       <td><input type="text" name="item04" value="_%item04%_" /></td>
@@ -94,6 +93,7 @@
       <th>項目20</th>
       <td><input type="text" name="item20" value="_%item20%_" /></td>
     </tr>
+-->
     <tr>
       <th>&nbsp;</th>
       <td><input type="submit" name="submit" value="編集" /></td>

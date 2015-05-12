@@ -20,6 +20,13 @@ class DocGroups < Model
     
   end
   
+  def get_data_by_doctype_id(id)
+    
+    sql = "SELECT * FROM #{@table} WHERE doctype_id=#{id} ORDER BY num"
+    vals = @db.query(sql)
+    
+  end
+  
   def get_edit_form(vals)
     
     typ = DocTypes.new()
@@ -45,7 +52,7 @@ class DocGroups < Model
     vals = get_data_by_value("doctype_id", $_GET["doctype_id"].to_i)
     
     html = "<SELECT name='#{name}'>"
-    html += "<option value=''> </option>"
+    html += "<option value=''></option>"
     vals.each do |row|
       tmp = (row["id"].to_i==id.to_i) ? "selected" : ""
       html += "<OPTION value='#{row["id"]}' #{tmp}>#{row["name"]}</OPTION>"
@@ -60,7 +67,9 @@ class DocGroups < Model
     #return get_list_table(get_data())
     #return get_list_table(get_data_with_order("name"))
     #return get_list_table(get_data_with_order("name"))
-    return get_list_table(get_data_by_value("doctype_id",$_GET["doctype_id"].to_i))
+    #return get_list_table(get_data_by_value("doctype_id",$_GET["doctype_id"].to_i))
+    
+    return get_list_table(get_data_by_doctype_id($_GET["doctype_id"].to_i))
     
   end
   
@@ -92,7 +101,8 @@ EOF
       html += <<EOF
 <table class="list">
   <tr>
-    <th>文書名</th>
+    <th>番号</th>
+    <th>分類名</th>
     <th>説明</th>
     <th>&nbsp;</th>
   </tr>
@@ -102,6 +112,7 @@ EOF
     vals.each do |row|
       html += <<EOF
 <tr>
+  <td align="center">#{row["num"]}</td>
   <td>#{row["name"]}</td>
   <td>#{row["note"]}</td>
   <td align="center">

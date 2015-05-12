@@ -5,8 +5,8 @@
 */
 	padding: 0px;
 	margin: 0px;
-	font-family: "Times New Roman", "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "メイリオ", Meiryo, serif;
-	font-size: 12pt;
+	font-family: "メイリオ", Meiryo, "Times New Roman", "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", serif;
+	font-size: 11pt;
 	color: #000;
 }
 
@@ -57,11 +57,12 @@ table.edit {
 
 table.edit th {
   text-align: right;
-	padding: 5px;
+  padding: 0px 5px;
+  height: 45px;
 }
 
 table.edit td {
-	padding: 5px;
+  padding: 0px 5px;
 }
 
 #menu {
@@ -87,20 +88,27 @@ table.edit td {
 }
 
 #head {
+/*
 	margin-top: 50px;
+*/
   padding: 10px;
   font-size: 18pt;
   font-weight: bold;
+	background-color: #CCC;
+	line-height: 50px;
+	border-bottom: 1px solid #666;
+  margin-bottom: 20px;
 }
 
 #nav {
-  width: 30%;
+  width: 25%;
   height: 400px;
   float: left;
 }
 #nav div.title {
   padding: 5px 0px 5px 10px;
-  border-bottom: 1px solid #EEEEEE;
+  border-bottom: 1px solid #CCC;
+  font-weight: bold;
 }
 
 #nav div {
@@ -114,7 +122,7 @@ table.edit td {
 	overflow: auto;
 	height: 500px;
 */
-  width: 69%;
+  width: 74%;
   float: right;
 }
 

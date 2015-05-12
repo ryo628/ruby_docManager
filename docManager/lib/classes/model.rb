@@ -50,7 +50,7 @@ class Model
   end
   
   def get_data()
-    sql = "SELECT * FROM #{@table}"
+    sql = "SELECT * FROM #{@table} ORDER BY id DESC"
     return @db.query(sql)
   end
   
@@ -95,6 +95,8 @@ class Model
     
     #print sql
     @db.exec(sql)
+    
+    return values["id"]
     
   end
   

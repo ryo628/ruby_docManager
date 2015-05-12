@@ -46,8 +46,12 @@ class DocManager
       html += obj.add()
     when "apply_docdata"
       debug("APPLY_DOCDATA")
-      obj.apply($_POST)
-      html += obj.list_all()
+      id = obj.apply($_POST)
+      html += obj.show(id)
+      #html += obj.list_all()
+    when "find_docdata"
+      debug("FIND_DOCDATA")
+      html += obj.list_by_word()
       
     when "file_save"
       debug("FILE_SAVE")
@@ -69,16 +73,21 @@ class DocManager
     
     menu = <<EOF
 <a href="./">TOP</a>
+<!--
 <a href="doctypes.rb">種類</a>
 <a href="docgroups.rb">分類</a>
-<!--
 <a href="docdatas.rb">データ</a>
 <a href="docusers.rb">ユーザー</a>
 -->
 EOF
+    menu = ""
+    #html += "<div style='clear: both;'>#{$_GET.to_s} #{RUBY_VERSION}</div>"
     
-    html += "<div style='clear: both;'>#{$_GET.to_s} #{RUBY_VERSION}</div>"
-    
+    @nav += <<EOF
+<div><a href='doctypes.rb'>種類</a></div>
+<div><a href='docgroups.rb'>分類</a></div>
+EOF
+
     wk = {
       "title" => title,
       "head" => title,
@@ -157,7 +166,8 @@ EOF
     
     if doctype_id > 0 then
       @nav += "<div class='title'><a href='docdatas.rb'>#{typ.get_name(doctype_id)}</a></div>"
-      grp.get_data_by_value("doctype_id", doctype_id).each do |row|
+      #grp.get_data_by_value("doctype_id", doctype_id).each do |row|
+      grp.get_data_by_doctype_id(doctype_id).each do |row|
         @nav += "<div><a href='docdatas.rb?doctype_id=#{doctype_id}&docgroup_id=#{row["id"]}'>#{row["name"]}</a></div>"
       end
     else
@@ -166,7 +176,9 @@ EOF
       end
     end
     
-    output("文書管理 - データ",html)
+    @nav += obj.get_find_form()
+    
+    output("文書管理",html)
     
   end
   
