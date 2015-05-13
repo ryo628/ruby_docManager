@@ -83,11 +83,6 @@ EOF
     menu = ""
     #html += "<div style='clear: both;'>#{$_GET.to_s} #{RUBY_VERSION}</div>"
     
-    @nav += <<EOF
-<div><a href='doctypes.rb'>種類</a></div>
-<div><a href='docgroups.rb'>分類</a></div>
-EOF
-
     wk = {
       "title" => title,
       "head" => title,
@@ -120,7 +115,7 @@ EOF
     
     if doctype_id > 0 then
       #html = obj.list_all()
-      html = obj.show(doctype_id)
+      html = obj.edit(doctype_id)
     elsif html == "" then
       #html = obj.get_add_form()
       html = obj.list_all()

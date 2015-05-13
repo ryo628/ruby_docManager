@@ -1,34 +1,36 @@
-﻿&nbsp;<form method="post">
+&nbsp;<form method="post" action="docdatas.rb">
   <input type="hidden" name="id" value="_%id%_" />
-  <input type="hidden" name="mode" value="apply_docdata" />
+  <input type="hidden" name="mode" value="edit_docdata" />
   <table class="edit">
     <tr>
       <th>分類</th>
-      <td width=150>_%docgroup_id%_</td>
+      <td colspan="3">_%docgroup_id%_</td>
     </tr>
     <tr>
-      <th>件名</th>
-      <td colspan="3"><input type="text" name="title" value="_%title%_" size=35 /></td>
+      <th>案件名</th>
+      <td colspan="3">_%title%_</td>
     </tr>
     <tr>
-      <th>NO</th>
-      <td><input type="text" name="num" value="_%num%_" size=5 /></td>
-      <th>受付日</th>
-      <td><input type="text" name="item01" value="_%item01%_" size=10 /></td>
+      <th>開発確認NO.</th>
+      <td colspan="3">_%num%_</td>
     </tr>
     <tr>
-      <th>会員名</th>
-      <td colspan="3"><input type="text" name="item02" value="_%item02%_" size=30 /></td>
+      <th>起案日</th>
+      <td width=200>_%item01%_</td>
+      <th>決裁日</th>
+      <td>_%item02%_</td>
     </tr>
     <tr>
-      <th>業務</th>
-      <td colspan="3"><input type="text" name="item03" value="_%item03%_" size=30 /></td>
+      <th>主管部署</th>
+      <td colspan="3">_%item03%_</td>
     </tr>
     <tr>
-      <th>分類</th>
-      <td ><input type="text" name="item04" value="_%item04%_" size=5 /></td>
-      <th>報告者</th>
-      <td ><input type="text" name="item05" value="_%item05%_" size=10 /></td>
+      <th>担当者</th>
+      <td colspan="3">_%item04%_</td>
+    </tr>
+    <tr>
+      <th>システム名</th>
+      <td>_%item05%_</td>
     </tr>
 <!--
     <tr>
@@ -94,8 +96,7 @@
 -->
     <tr>
       <th>&nbsp;</th>
-      <td><input type="submit" name="submit" value="送信" /></td>
-      <td colspan=2>*日付は「yyyy-mm-dd」形式で入力します。</td>
+      <td><input type="submit" name="submit" value="編集" /></td>
     </tr>
   </table>
   

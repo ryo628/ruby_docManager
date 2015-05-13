@@ -62,12 +62,14 @@ class DocDatas < Model
   
   def get_find_form()
     
+    word = $_POST["word"].to_s
+    
     html = <<EOF
 <form method="post">
   <input type="hidden" name="mode" value="find_docdata" />
   <table>
     <tr>
-      <td><input type="text" name="word" value="" size=10 /></td>
+      <td><input type="text" name="word" value="#{word}" size=10 /></td>
       <td><input type="submit" name="submit" value="検索" /></td>
     </tr>
   </table>
@@ -126,10 +128,22 @@ EOF
   
   def list_by_word()
     
-    sql = "SELECT * FROM #{@table} WHERE title LIKE '%#{$_POST["word"]}%';"
+    docgroup_id = $_GET["docgroup_id"].to_i
+    
+    str = ""
+    opt = ""
+    
+    if docgroup_id > 0 then
+      str = "AND docgroup_id = #{docgroup_id}"
+      grp = DocGroups.new()
+      opt = grp.get_name(docgroup_id) + "内の"
+    end
+    
+    sql = "SELECT * FROM #{@table} WHERE title LIKE '%#{$_POST["word"]}%' #{str};"
     vals = @db.query(sql)
     #vals = get_data_by_value("title", $_POST["word"])
-    return get_list_table(vals)
+    opt = "<h1>#{opt}「#{$_POST["word"]}」検索結果</h1>"
+    return opt + get_list_table(vals)
     
   end
   
@@ -165,7 +179,7 @@ EOF
     <th>NO</th>
     <th>件名</th>
     <th>作成</th>
-    <th>ファイル</th>
+    <th nowrap>ファイル</th>
     <th>&nbsp;</th>
   </tr>
 EOF
@@ -187,15 +201,17 @@ EOF
         psn = row["item03"]
       when 2
         psn = row["item05"]
+      when 3
+        psn = row["item04"]
       end
       
       
       html += <<EOF
 <tr>
-  <td align="center">#{row["num"]}</td>
+  <td align="center" nowrap>#{row["num"]}</td>
   <td><span style="font-size: 10pt;">[#{typ_name} - #{grp_name}]</span><br />#{row["title"]}</td>
-  <td align="center">#{psn}</td>
-  <td align="center" nowrap>#{fl.get_file_links(row["id"])}</td>
+  <td align="center" nowrap>#{psn}</td>
+  <td align="left" nowrap>#{fl.get_file_links(row["id"])}</td>
   <td align="center" nowrap>
     <form method='post'>
       <input type="hidden" name="id" value="#{row['id']}" />

@@ -41,7 +41,11 @@ class Files
       #if html != "" then
       #  html += "<br />"
       #end
-      html += "<a href='#{path}/#{filename}' target='_blank'><img src='report1.png' alt='#{filename}' width=32 border=0 /></a>"
+      html += <<EOF
+<a href='#{path}/#{filename}' target='_blank'>
+  <img src='report1.png' alt='#{filename}' width=24 border=0 />
+</a>
+EOF
     end
     
     return html
@@ -87,7 +91,7 @@ EOF
   <input type="hidden" name="id" value="#{id}">
   <input type="hidden" name="selected" value="" />
   <input type="file" name="#{@name}" onchange="this.form.selected.value='true'">
-  <input type="button" value="アップロード" onclick="if(this.form.selected.value=='true'){this.form.submit();}else{alert('ファイルが選択されていません');}">
+  <input type="button" value="アップロード" onclick="if(this.form.selected.value=='true'){this.form.submit();}else{alert('ファイルが選択されていません');}" style="padding: 0px;">
 </form>
 EOF
     return "<div style='border-top: 1px solid #666666; padding-top: 10px;'>#{html}</div>"

@@ -1,0 +1,12 @@
+Options +ExecCGI
+AddHandler cgi-script .rb .cgi
+DirectoryIndex index.html index.rb
+
+#AuthName "LDAP Authentication"
+#AuthType Basic
+#AuthBasicProvider ldap
+#AuthzLDAPAuthoritative off
+#AuthLDAPURL "ldap://167.198.200.131:389/dc=jasmcnt-ad,dc=ja-shimane,dc=gr,dc=jp?sAMAccountName?sub?(objectClass=*)"
+#AuthLDAPURL "ldap://167.198.100.225:389/dc=jasmcnt-ad,dc=ja-shimane,dc=gr,dc=jp?sAMAccountName?sub?(objectClass=*)"
+#Require valid-user
+

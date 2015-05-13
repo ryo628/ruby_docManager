@@ -5,7 +5,7 @@
 */
 	padding: 0px;
 	margin: 0px;
-	font-family: "メイリオ", Meiryo, "Times New Roman", "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", serif;
+	font-family: "メイリオ", Meiryo, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "Times New Roman", "游明朝", YuMincho, serif;
 	font-size: 11pt;
 	color: #000;
 }
@@ -47,7 +47,16 @@ table.list th {
 
 table.list td {
 	border: 1px solid #666;
-	padding: 5px 0px;
+	padding: 5px;
+}
+
+table.list img {
+	padding-left: 3px;
+}
+
+table.list form input {
+	padding: 2px;
+	margin: 0px;
 }
 
 table.edit {
@@ -56,13 +65,13 @@ table.edit {
 }
 
 table.edit th {
-  text-align: right;
-  padding: 0px 5px;
-  height: 45px;
+	text-align: right;
+	padding: 0px 5px;
+	height: 45px;
 }
 
 table.edit td {
-  padding: 0px 5px;
+	padding: 0px 5px;
 }
 
 #menu {
@@ -91,24 +100,27 @@ table.edit td {
 /*
 	margin-top: 50px;
 */
-  padding: 10px;
-  font-size: 18pt;
-  font-weight: bold;
+	padding: 10px;
+	font-size: 18pt;
+	font-weight: bold;
 	background-color: #CCC;
 	line-height: 50px;
 	border-bottom: 1px solid #666;
-  margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 #nav {
-  width: 25%;
-  height: 400px;
-  float: left;
+/*
+	height: 400px;
+*/
+	width: 27%;
+	float: left;
+	border: 0px solid #FF0000;
 }
 #nav div.title {
-  padding: 5px 0px 5px 10px;
-  border-bottom: 1px solid #CCC;
-  font-weight: bold;
+	padding: 5px 0px 5px 10px;
+	border-bottom: 1px solid #CCC;
+	font-weight: bold;
 }
 
 #nav div {
@@ -122,8 +134,8 @@ table.edit td {
 	overflow: auto;
 	height: 500px;
 */
-  width: 74%;
-  float: right;
+	width: 72%;
+	float: right;
 }
 
 #cont h1 {

@@ -14,7 +14,7 @@ function resizePage() {
 	
 	w = window.innerWidth;
 	h = window.innerHeight;
-	getDiv("wk").innerHTML = w + "px * " + h + "px";
+	//getDiv("wk").innerHTML = w + "px * " + h + "px";
 	
 	if (w > h) {
 		//getDiv("top").style.width = "54%";
