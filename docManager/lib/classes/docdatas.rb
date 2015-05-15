@@ -35,11 +35,15 @@ class DocDatas < Model
   def get_edit_form(vals)
     
     grp = DocGroups.new()
+    typ = DocTypes.new()
     
     vals["docgroup_id"] = grp.get_select_form("docgroup_id", vals["docgroup_id"])
     
     doctype_id = $_GET["doctype_id"]
-    html = load_template(vals, "edit_#{@type}_#{doctype_id}.html")
+    #html = load_template(vals, "edit_#{@type}_#{doctype_id}.html")
+    
+    html = make_html_by_values(vals, typ.get_data_edit_form(doctype_id))
+    
     return html
     
   end
@@ -47,11 +51,14 @@ class DocDatas < Model
   def get_show_form(vals)
     
     grp = DocGroups.new()
+    typ = DocTypes.new()
     
     vals["docgroup_id"] = grp.get_name(vals["docgroup_id"])
     
     doctype_id = $_GET["doctype_id"]
-    html = load_template(vals, "show_#{@type}_#{doctype_id}.html")
+    #html = load_template(vals, "show_#{@type}_#{doctype_id}.html")
+    
+    html = make_html_by_values(vals, typ.get_data_show_form(doctype_id))
     
     f = Files.new()
     html += f.get_upload_form(vals["id"])
@@ -70,7 +77,7 @@ class DocDatas < Model
   <table>
     <tr>
       <td><input type="text" name="word" value="#{word}" size=10 /></td>
-      <td><input type="submit" name="submit" value="検索" /></td>
+      <td><input type="submit" name="submit" value="検索" style="padding: 0px;" /></td>
     </tr>
   </table>
 </form>
@@ -166,28 +173,51 @@ EOF
     
   end
   
+  def get_operation_form(id)
+    
+    if ENV['REMOTE_USER'].to_s != "guest" then
+    
+      html = <<EOF
+<form method='post'>
+  <input type="hidden" name="id" value="#{id}" />
+<!--
+  <input type="hidden" name="mode" value="edit_#{@type}" />
+  <input type="submit" name="submit" value="編集" />
+  <input type="submit" name="submit" value="表示" onclick="this.form.mode.value='show_#{@type}';" />
+-->
+  <input type="hidden" name="mode" value="show_#{@type}" />
+  <input type="submit" name="submit" value="表示" />
+</form>
+EOF
+    
+    else
+      html = <<EOF
+<input type='button' value='表示' onclick='alert("利用できません");' />
+EOF
+    end
+    
+    return html
+    
+  end
+  
   def get_list_table(vals)
     
     debug("doc#{@type}s.get_list_table")
     html = get_add_form()
     
-    if vals.length > 0 then
-    
-    html += <<EOF
-<table class="list">
-  <tr>
-    <th>NO</th>
-    <th>件名</th>
-    <th>作成</th>
-    <th nowrap>ファイル</th>
-    <th>&nbsp;</th>
-  </tr>
-EOF
-    end
-    
     fl = Files.new()
     typ = DocTypes.new()
     grp = DocGroups.new()
+    
+    if vals.length > 0 then
+      
+      grp_vals = grp.get_data_by_id(vals[0]["docgroup_id"])
+      
+      html += <<EOF
+<table class="list">
+  #{typ.get_list_header(grp_vals["doctype_id"])}
+EOF
+    end
     
     vals.each do |row|
       
@@ -195,32 +225,37 @@ EOF
       grp_name = grp_vals["name"]
       typ_name = typ.get_name(grp_vals["doctype_id"])
       
-      psn = ""
-      case grp_vals["doctype_id"].to_i
-      when 1
-        psn = row["item03"]
-      when 2
-        psn = row["item05"]
-      when 3
-        psn = row["item04"]
-      end
+      str = typ.get_list_row(grp_vals["doctype_id"])
       
+      #psn = ""
+      #case grp_vals["doctype_id"].to_i
+      #when 1
+      #  psn = row["item03"]
+      #when 2
+      #  psn = row["item05"]
+      #when 3
+      #  psn = row["item04"]
+      #end
       
+      row["doctype_name"] = typ_name
+      row["docgroup_name"] = grp_name
+      
+      row["file"] = fl.get_file_links(row["id"])
+      row["form"] = get_operation_form(row["id"])
+      
+      html += make_html_by_values(row, str)
+      
+=begin
       html += <<EOF
 <tr>
   <td align="center" nowrap>#{row["num"]}</td>
   <td><span style="font-size: 10pt;">[#{typ_name} - #{grp_name}]</span><br />#{row["title"]}</td>
-  <td align="center" nowrap>#{psn}</td>
+  <td align="center" nowrap>#{"psn"}</td>
   <td align="left" nowrap>#{fl.get_file_links(row["id"])}</td>
-  <td align="center" nowrap>
-    <form method='post'>
-      <input type="hidden" name="id" value="#{row['id']}" />
-      <input type="hidden" name="mode" value="edit_#{@type}" />
-      <input type="submit" name="submit" value="編集" /><input type="submit" name="submit" value="表示" onclick="this.form.mode.value='show_#{@type}';" />
-    </form>
-  </td>
+  <td align="center" nowrap>#{get_operation_form(row['id'])}</td>
 </tr>
 EOF
+=end
     end
     
     html += "</table>"

@@ -49,10 +49,11 @@ class DocGroups < Model
     
     #vals = get_data()
     #vals = get_data_with_order("name")
-    vals = get_data_by_value("doctype_id", $_GET["doctype_id"].to_i)
+    #vals = get_data_by_value("doctype_id", $_GET["doctype_id"].to_i)
+    vals = get_data_by_doctype_id($_GET["doctype_id"].to_i)
     
     html = "<SELECT name='#{name}'>"
-    html += "<option value=''></option>"
+    #html += "<option value=''></option>"
     vals.each do |row|
       tmp = (row["id"].to_i==id.to_i) ? "selected" : ""
       html += "<OPTION value='#{row["id"]}' #{tmp}>#{row["name"]}</OPTION>"

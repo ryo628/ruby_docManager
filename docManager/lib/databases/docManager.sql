@@ -23,8 +23,17 @@ CREATE TABLE `doctypes`(
   item18 text,
   item19 text,
   item20 text,
-  note text
+  note text,
+  list_header text,
+  list_row text,
+  edit_form text,
+  show_form text
 );
+
+ALTER TABLE doctypes ADD COLUMN list_header text;
+ALTER TABLE doctypes ADD COLUMN list_row text;
+ALTER TABLE doctypes ADD COLUMN edit_form text;
+ALTER TABLE doctypes ADD COLUMN show_form text;
 
 DROP TABLE `docgroups`;
 CREATE TABLE `docgroups`(

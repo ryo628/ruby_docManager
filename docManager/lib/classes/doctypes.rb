@@ -23,7 +23,37 @@ class DocTypes < Model
     
     #vals = @mdl.get_blank_data()
     vals = get_blank_data()
+    
+    vals["list_header"] = load_template({}, "list_header.html")
+    vals["list_row"] = load_template({}, "list_row.html")
+    vals["edit_form"] = load_template({}, "edit_docdata.html")
+    vals["show_form"] = load_template({}, "show_docdata.html")
+    
     return get_edit_form(vals)
+    
+  end
+  
+  def get_list_header(id)
+    
+    return get_value_by_id("list_header",id)
+    
+  end
+  
+  def get_list_row(id)
+    
+    return get_value_by_id("list_row",id)
+    
+  end
+  
+  def get_data_edit_form(id)
+    
+    return get_value_by_id("edit_form",id)
+    
+  end
+  
+  def get_data_show_form(id)
+    
+    return get_value_by_id("show_form",id)
     
   end
   

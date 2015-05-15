@@ -111,7 +111,13 @@ EOF
     doctype_id = $_GET["doctype_id"].to_i
     
     obj = DocTypes.new()
-    html = main(obj)
+    
+    html = ""
+    if ENV['REMOTE_USER'].to_s != "guest" then
+      html = main(obj)
+    else
+      doctype_id = 0
+    end
     
     if doctype_id > 0 then
       #html = obj.list_all()
@@ -121,6 +127,7 @@ EOF
       html = obj.list_all()
     end
     
+    @nav += "<div class='title'><a href='doctypes.rb'>一覧表</a></div>"
     obj.get_data_with_order("num").each do |row|
       @nav += "<div><a href='doctypes.rb?doctype_id=#{row["id"]}'>#{row["name"]}</a></div>"
     end
@@ -132,7 +139,12 @@ EOF
   def docgroups()
     
     obj = DocGroups.new()
-    html = main(obj)
+    
+    html = ""
+    if ENV['REMOTE_USER'].to_s != "guest" then
+      html = main(obj)
+    end
+    
     if html == "" then
       html = obj.list_all()
     end
@@ -159,6 +171,8 @@ EOF
     typ = DocTypes.new()
     grp = DocGroups.new()
     
+    @nav += obj.get_find_form()
+    
     if doctype_id > 0 then
       @nav += "<div class='title'><a href='docdatas.rb'>#{typ.get_name(doctype_id)}</a></div>"
       #grp.get_data_by_value("doctype_id", doctype_id).each do |row|
@@ -171,7 +185,7 @@ EOF
       end
     end
     
-    @nav += obj.get_find_form()
+    #@nav += "<div>#{ENV['REMOTE_USER']}</div>"
     
     output("文書管理",html)
     
@@ -187,7 +201,11 @@ EOF
   def files()
     
     obj = Files.new()
-    html = main(obj)
+    
+    html = ""
+    if ENV['REMOTE_USER'].to_s != "guest" then
+      html = main(obj)
+    end
     
     $_POST["mode"] = "show_docdata"
     docdatas()

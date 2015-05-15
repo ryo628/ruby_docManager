@@ -85,8 +85,13 @@ EOF
       html = "<h1>ファイル</h1>" + html
     end
     
+    dat = DocDatas.new()
+    
+    docgroup_id = dat.get_data_by_id(id)["docgroup_id"]
+    doctype_id = dat.get_doctype_id(docgroup_id)
+    
     html += <<EOF
-<form method="post" action="upload.rb" enctype="multipart/form-data">
+<form method="post" action="upload.rb?doctype_id=#{doctype_id}&docgroup_id=#{docgroup_id}" enctype="multipart/form-data">
   <input type="hidden" name="mode" value="file_save" />
   <input type="hidden" name="id" value="#{id}">
   <input type="hidden" name="selected" value="" />
