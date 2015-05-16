@@ -3,6 +3,7 @@
 require 'cgi'
 require 'cgi/session'
 require 'sqlite3'
+require 'webrick'
 
 $cgi = CGI.new()
 $session = CGI::Session.new($cgi)

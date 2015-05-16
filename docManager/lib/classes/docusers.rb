@@ -14,6 +14,7 @@ class DocUsers < Model
   def edit(id)
     
     vals = get_data_by_id(id)
+    vals["auth_type"] = get_select_form(vals["auth_type"])
     return get_edit_form(vals)
     
   end
@@ -39,12 +40,52 @@ class DocUsers < Model
     
   end
   
+  def get_password_form()
+    
+    vals = get_data_by_str("name", get_login_user())
+    
+    html = load_template(vals[0], "edit_password.html")
+    return html
+    
+  end
+  
+  def set_password(vals)
+    
+    name = get_name(vals["id"])
+    password = vals["password"]
+    
+    html = ""
+    
+    if password != "" then
+      
+      #htpd = WEBrick::HTTPAuth::Htpasswd.new('./htpasswd')
+      #htpd.set_passwd(nil, name, password)
+      #htpd.flush
+      
+      #cmd = "/usr/bin/sudo /usr/bin/htpasswd -b /html/www/.htpasswd #{name} #{password}"
+      #cmd = "htpasswd -b /var/www/.htpasswd #{name} #{password}"
+      #html += cmd
+      #html += `#{cmd}`
+      html += "<pre>" + `ls -la /var/www/` + "</pre>"
+      #html += `/usr/bin/htpasswd -c ./files/.htpasswd #{name} #{password}`
+      html += "<div>パスワードを変更しました。</div>"
+      
+    else
+    
+      html = "<div>パスワードが空白のため、変更できませんでした。</div>"
+    
+    end
+    
+    return html
+    
+  end
+  
   def get_name(id)
     
     return get_value_by_id("name", id)
     
   end
-  
+   
   def get_auth_type()
     
     ans = get_data_by_str("name", get_login_user())
@@ -58,13 +99,14 @@ class DocUsers < Model
     
   end
   
-  def get_select_form(name, id)
+  def get_select_form(auth_type)
     
-    vals = get_data_with_order("name")
-    html = "<SELECT name='#{name}'>"
-    vals.each do |row|
-      tmp = (row["id"].to_i==id.to_i) ? "selected" : ""
-      html += "<OPTION value='#{row["id"]}' #{tmp}>#{row["name"]}</OPTION>"
+    auth_types = ["guest", "user", "admin"]
+    
+    html = "<SELECT name='auth_type'>"
+    auth_types.each do |str|
+      tmp = (str==auth_type) ? "selected" : ""
+      html += "<OPTION value='#{str}' #{tmp}>#{str}</OPTION>"
     end
     html += "</SELECT>"
     return html

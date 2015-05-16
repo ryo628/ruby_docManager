@@ -23,6 +23,10 @@ class DocManager
       debug("APPLY_DOCUSER")
       obj.apply($_POST)
       html += obj.list_all()
+    when "change_password"
+      debug("CHANGE_PASSWORD")
+      html = obj.set_password($_POST)
+      #html += obj.list_all()
       
     when "edit_doctype"
       debug("EDIT_DOCTYPE")
@@ -187,7 +191,7 @@ EOF
     @nav += obj.get_find_form()
     
     if doctype_id > 0 then
-      @nav += "<div class='title'><a href='docdatas.rb'>#{typ.get_name(doctype_id)}</a></div>"
+      @nav += "<div class='title'><a href='./'>#{typ.get_name(doctype_id)}</a></div>"
       #grp.get_data_by_value("doctype_id", doctype_id).each do |row|
       grp.get_data_by_doctype_id(doctype_id).each do |row|
         @nav += "<div><a href='docdatas.rb?doctype_id=#{doctype_id}&docgroup_id=#{row["id"]}'>#{row["name"]}</a></div>"
@@ -203,7 +207,11 @@ EOF
       end
     end
     
-    @nav += "<div style='border-top: 0px solid #666; margin-top: 10px; color: #999;'>#{get_login_user()}</div>"
+    #if !is_guest() then
+    #  @nav += "<div><a href='password.rb'>パスワード変更</a></div>"
+    #end
+    
+    #@nav += "<div style='border-top: 0px solid #666; margin-top: 10px; color: #999;'>#{get_login_user()}</div>"
     
     output("文書管理",html)
     
@@ -236,6 +244,22 @@ EOF
     end
     
     output("文書管理 - ユーザー",html)
+    
+  end
+  
+   def password()
+    
+    obj = DocUsers.new()
+    
+    html = obj.get_password_form()
+    
+    if !is_guest() then
+      html += main(obj)
+    end
+    
+    @nav += "<div class='title'><a href='./'>戻る</a></div>"
+    
+    output("文書管理 - パスワード",html)
     
   end
   
