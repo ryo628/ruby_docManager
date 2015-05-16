@@ -1,7 +1,7 @@
-class DocTypes < Model
+class DocUsers < Model
   
   def initialize()
-    set_value($db, "doctypes")
+    set_value($db, "docusers")
   end
   
   def show(id)
@@ -13,7 +13,6 @@ class DocTypes < Model
   
   def edit(id)
     
-    #vals = @mdl.get_data_by_id(id)
     vals = get_data_by_id(id)
     return get_edit_form(vals)
     
@@ -21,63 +20,46 @@ class DocTypes < Model
   
   def add()
     
-    #vals = @mdl.get_blank_data()
     vals = get_blank_data()
-    
-    vals["list_header"] = load_template({}, "list_header.html")
-    vals["list_row"] = load_template({}, "list_row.html")
-    vals["edit_form"] = load_template({}, "edit_docdata.html")
-    vals["show_form"] = load_template({}, "show_docdata.html")
-    
     return get_edit_form(vals)
-    
-  end
-  
-  def get_list_header(id)
-    
-    return get_value_by_id("list_header",id)
-    
-  end
-  
-  def get_list_row(id)
-    
-    return get_value_by_id("list_row",id)
-    
-  end
-  
-  def get_data_edit_form(id)
-    
-    return get_value_by_id("edit_form",id)
-    
-  end
-  
-  def get_data_show_form(id)
-    
-    return get_value_by_id("show_form",id)
     
   end
   
   def get_edit_form(vals)
     
-    html = load_template(vals, "edit_doctype.html")
+    html = load_template(vals, "edit_docuser.html")
     return html
     
   end
   
   def get_show_form(vals)
     
-    html = load_template(vals, "show_doctype.html")
+    html = load_template(vals, "show_docuser.html")
     return html
     
   end
   
   def get_name(id)
+    
     return get_value_by_id("name", id)
+    
+  end
+  
+  def get_auth_type()
+    
+    ans = get_data_by_str("name", get_login_user())
+    if ans.length > 0 then
+      wk = ans[0]["auth_type"]
+    else
+      wk = ""
+    end
+    debug(ans)
+    return wk
+    
   end
   
   def get_select_form(name, id)
     
-    #vals = get_data()
     vals = get_data_with_order("name")
     html = "<SELECT name='#{name}'>"
     vals.each do |row|
@@ -91,8 +73,6 @@ class DocTypes < Model
   
   def list_all()
     
-    #return get_list_table(get_data())
-    #return get_list_table(get_data_with_order("name"))
     return get_list_table(get_data_with_order("name"))
     
   end
@@ -102,7 +82,7 @@ class DocTypes < Model
     html = <<EOF
 <form method='post'>
   <input type="hidden" name="id" value="0" />
-  <input type="hidden" name="mode" value="add_doctype" />
+  <input type="hidden" name="mode" value="add_docuser" />
   <input type="submit" name="submit" value="追加" />
 </form>
 EOF
@@ -112,7 +92,7 @@ EOF
   
   def get_list_table(vals)
     
-    debug("docTypes.get_list_table")
+    debug("docUsers.get_list_table")
     html = get_add_form()
     
     if vals.length > 0 then
@@ -120,8 +100,8 @@ EOF
     html += <<EOF
 <table class="list">
   <tr>
-    <th>文書名</th>
-    <th>説明</th>
+    <th>ID</th>
+    <th>権限</th>
     <th>&nbsp;</th>
   </tr>
 EOF
@@ -131,11 +111,11 @@ EOF
       html += <<EOF
 <tr>
   <td>#{row["name"]}</td>
-  <td>#{row["note"]}</td>
+  <td>#{row["auth_type"]}</td>
   <td align="center">
     <form method='post'>
       <input type="hidden" name="id" value="#{row['id']}" />
-      <input type="hidden" name="mode" value="edit_doctype" />
+      <input type="hidden" name="mode" value="edit_docuser" />
       <input type="submit" name="submit" value="編集" />
     </form>
   </td>

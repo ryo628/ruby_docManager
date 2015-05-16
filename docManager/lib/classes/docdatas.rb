@@ -175,7 +175,7 @@ EOF
   
   def get_operation_form(id)
     
-    if ENV['REMOTE_USER'].to_s != "guest" then
+    if !is_guest() then
     
       html = <<EOF
 <form method='post'>
@@ -240,6 +240,8 @@ EOF
       row["doctype_name"] = typ_name
       row["docgroup_name"] = grp_name
       
+    debug("STEP")
+    
       row["file"] = fl.get_file_links(row["id"])
       row["form"] = get_operation_form(row["id"])
       
@@ -259,6 +261,8 @@ EOF
     end
     
     html += "</table>"
+    
+    debug("END")
     
     return html
     

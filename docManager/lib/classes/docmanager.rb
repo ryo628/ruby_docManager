@@ -13,6 +13,17 @@ class DocManager
     #obj = DocTypes.new()
     
     case mode
+    when "edit_docuser"
+      debug("EDIT_DOCUSER")
+      html += obj.edit($_POST["id"])
+    when "add_docuser"
+      debug("ADD_DOCUSER")
+      html += obj.add()
+    when "apply_docuser"
+      debug("APPLY_DOCUSER")
+      obj.apply($_POST)
+      html += obj.list_all()
+      
     when "edit_doctype"
       debug("EDIT_DOCTYPE")
       html += obj.edit($_POST["id"])
@@ -113,7 +124,7 @@ EOF
     obj = DocTypes.new()
     
     html = ""
-    if ENV['REMOTE_USER'].to_s != "guest" then
+    if is_admin() then
       html = main(obj)
     else
       doctype_id = 0
@@ -127,7 +138,7 @@ EOF
       html = obj.list_all()
     end
     
-    @nav += "<div class='title'><a href='doctypes.rb'>一覧表</a></div>"
+    @nav += "<div class='title'><a href='./'>戻る</a></div>"
     obj.get_data_with_order("num").each do |row|
       @nav += "<div><a href='doctypes.rb?doctype_id=#{row["id"]}'>#{row["name"]}</a></div>"
     end
@@ -141,13 +152,15 @@ EOF
     obj = DocGroups.new()
     
     html = ""
-    if ENV['REMOTE_USER'].to_s != "guest" then
+    if is_admin() then
       html = main(obj)
     end
     
     if html == "" then
       html = obj.list_all()
     end
+    
+    @nav += "<div class='title'><a href='./'>戻る</a></div>"
     
     typ = DocTypes.new()
     typ.get_data_with_order("num").each do |row|
@@ -183,9 +196,14 @@ EOF
       typ.get_data_with_order("num").each do |row|
         @nav += "<div><a href='docdatas.rb?doctype_id=#{row["id"]}'>#{row["name"]}</a></div>"
       end
+      if is_admin() then
+        @nav += "<div><a href='doctypes.rb'>種類管理</a></div>"
+        @nav += "<div><a href='docgroups.rb'>分類管理</a></div>"
+        @nav += "<div><a href='docusers.rb'>ユーザー管理</a></div>"
+      end
     end
     
-    #@nav += "<div>#{ENV['REMOTE_USER']}</div>"
+    @nav += "<div style='border-top: 0px solid #666; margin-top: 10px; color: #999;'>#{get_login_user()}</div>"
     
     output("文書管理",html)
     
@@ -193,7 +211,30 @@ EOF
   
    def docusers()
     
-    html = main()
+    docuser_id = $_GET["docuser_id"].to_i
+    
+    obj = DocUsers.new()
+    
+    html = ""
+    if is_admin() then
+      html = main(obj)
+    else
+      docuser_id = 0
+    end
+    
+    if docuser_id > 0 then
+      #html = obj.list_all()
+      html = obj.edit(docuser_id)
+    elsif html == "" then
+      #html = obj.get_add_form()
+      html = obj.list_all()
+    end
+    
+    @nav += "<div class='title'><a href='./'>戻る</a></div>"
+    obj.get_data_with_order("name").each do |row|
+      @nav += "<div><a href='docusers.rb?docuser_id=#{row["id"]}'>#{row["name"]}</a></div>"
+    end
+    
     output("文書管理 - ユーザー",html)
     
   end
@@ -203,7 +244,7 @@ EOF
     obj = Files.new()
     
     html = ""
-    if ENV['REMOTE_USER'].to_s != "guest" then
+    if !is_guest() then
       html = main(obj)
     end
     

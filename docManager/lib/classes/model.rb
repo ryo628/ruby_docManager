@@ -64,6 +64,11 @@ class Model
     return @db.query(sql)
   end
   
+  def get_data_by_str(column, value)
+    sql = "SELECT * FROM #{@table} WHERE #{column}='#{value}'"
+    return @db.query(sql)
+  end
+  
   def get_blank_data()
     
     vals = {}

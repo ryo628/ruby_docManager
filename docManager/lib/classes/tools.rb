@@ -43,3 +43,27 @@ def make_html_by_values(values, str)
   return html
 
 end
+
+def get_login_user()
+
+  return ENV['REMOTE_USER'].to_s
+
+end
+
+def is_guest()
+  usr = DocUsers.new()
+  flg = false
+  if usr.get_auth_type() == "guest" then
+    flg = true
+  end
+  return flg
+end
+
+def is_admin()
+  usr = DocUsers.new()
+  flg = false
+  if usr.get_auth_type() == "admin" then
+    flg = true
+  end
+  return flg
+end
