@@ -213,10 +213,8 @@ EOF
       
       grp_vals = grp.get_data_by_id(vals[0]["docgroup_id"])
       
-      html += <<EOF
-<table class="list">
-  #{typ.get_list_header(grp_vals["doctype_id"])}
-EOF
+      html += "<table class='list'>" + typ.get_list_header(grp_vals["doctype_id"])
+      
     end
     
     vals.each do |row|
