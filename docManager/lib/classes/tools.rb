@@ -45,8 +45,13 @@ def make_html_by_values(values, str)
 end
 
 def get_login_user()
-
-  return ENV['REMOTE_USER'].to_s
+  
+  wk = ENV['REMOTE_USER'].to_s
+  if wk == "" then
+    wk = "admin"
+  end
+  
+  return wk
 
 end
 
