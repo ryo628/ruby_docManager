@@ -25,6 +25,7 @@ class DBConnect
   end
   
   def query(sql)
+    debug(sql)
     return sql2array(sql)
   end
   

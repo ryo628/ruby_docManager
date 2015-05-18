@@ -78,3 +78,8 @@ CREATE TABLE `docusers`(
   password text,
   auth_type text
 );
+
+INSERT INTO docusers (id,name,auth_type) VALUES (1,"admin","admin");
+INSERT INTO docusers (id,name,auth_type) VALUES (2,"user","user");
+INSERT INTO docusers (id,name,auth_type) VALUES (3,"guest","guest");
+

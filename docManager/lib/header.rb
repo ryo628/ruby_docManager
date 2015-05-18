@@ -61,3 +61,6 @@ $db_name = "docManager"
 
 $db = DBConnect.new($db_host, $db_user, $db_pass, $databaseDir + $db_name)
 
+$auth_type = ""
+set_auth_type()
+

@@ -93,7 +93,7 @@ class DocTypes < Model
     
     #return get_list_table(get_data())
     #return get_list_table(get_data_with_order("name"))
-    return get_list_table(get_data_with_order("name"))
+    return get_list_table(get_data_with_order("num"))
     
   end
   
@@ -120,6 +120,7 @@ EOF
     html += <<EOF
 <table class="list">
   <tr>
+    <th>NO.</th>
     <th>文書名</th>
     <th>説明</th>
     <th>&nbsp;</th>
@@ -130,6 +131,7 @@ EOF
     vals.each do |row|
       html += <<EOF
 <tr>
+  <td align="center">#{row["num"]}</td>
   <td>#{row["name"]}</td>
   <td>#{row["note"]}</td>
   <td align="center">

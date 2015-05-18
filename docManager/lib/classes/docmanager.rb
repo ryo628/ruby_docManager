@@ -146,6 +146,7 @@ EOF
     obj.get_data_with_order("num").each do |row|
       @nav += "<div><a href='doctypes.rb?doctype_id=#{row["id"]}'>#{row["name"]}</a></div>"
     end
+    @nav += "<div><a href='doctypes.rb'>一覧</a></div>"
     
     output("文書管理 - 種類",html)
     
@@ -201,6 +202,7 @@ EOF
         @nav += "<div><a href='docdatas.rb?doctype_id=#{row["id"]}'>#{row["name"]}</a></div>"
       end
       if is_admin() then
+        @nav += "<div><hr size=1 /></div>"
         @nav += "<div><a href='doctypes.rb'>種類管理</a></div>"
         @nav += "<div><a href='docgroups.rb'>分類管理</a></div>"
         @nav += "<div><a href='docusers.rb'>ユーザー管理</a></div>"
@@ -242,6 +244,7 @@ EOF
     obj.get_data_with_order("name").each do |row|
       @nav += "<div><a href='docusers.rb?docuser_id=#{row["id"]}'>#{row["name"]}</a></div>"
     end
+    @nav += "<div><a href='docusers.rb'>一覧</a></div>"
     
     output("文書管理 - ユーザー",html)
     
