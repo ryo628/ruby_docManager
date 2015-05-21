@@ -75,6 +75,26 @@ class DocTypes < Model
     return get_value_by_id("name", id)
   end
   
+  def get_data_with_order(column)
+    sql = <<EOF
+SELECT
+  a.*,
+  COUNT(c.id) AS datacount
+FROM
+  doctypes a,
+  docgroups b,
+  docdatas c
+WHERE
+  a.id = b.doctype_id AND
+  b.id = c.docgroup_id
+GROUP BY a.id
+ORDER BY a.#{column}
+EOF
+    #puts "<pre>#{sql}</pre>"
+    #sql = "SELECT * FROM #{@table} ORDER BY #{column}"
+    return @db.query(sql)
+  end
+  
   def get_select_form(name, id)
     
     #vals = get_data()

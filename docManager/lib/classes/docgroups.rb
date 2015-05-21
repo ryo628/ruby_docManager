@@ -22,7 +22,20 @@ class DocGroups < Model
   
   def get_data_by_doctype_id(id)
     
-    sql = "SELECT * FROM #{@table} WHERE doctype_id=#{id} ORDER BY num"
+    sql = <<EOF
+SELECT
+  a.*,
+  COUNT(b.id) AS datacount
+FROM
+  docgroups a,
+  docdatas b
+WHERE
+  a.doctype_id=#{id} AND
+  a.id = b.docgroup_id
+GROUP BY a.id
+ORDER BY a.num
+EOF
+    #sql = "SELECT * FROM #{@table} WHERE doctype_id=#{id} ORDER BY num"
     vals = @db.query(sql)
     
   end

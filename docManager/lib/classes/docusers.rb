@@ -22,6 +22,7 @@ class DocUsers < Model
   def add()
     
     vals = get_blank_data()
+    vals["auth_type"] = get_select_form(vals["auth_type"])
     return get_edit_form(vals)
     
   end
