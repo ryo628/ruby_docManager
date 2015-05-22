@@ -30,12 +30,6 @@ CREATE TABLE `doctypes`(
   show_form text
 );
 
-ALTER TABLE doctypes ADD COLUMN list_header text;
-ALTER TABLE doctypes ADD COLUMN list_row text;
-ALTER TABLE doctypes ADD COLUMN edit_form text;
-ALTER TABLE doctypes ADD COLUMN show_form text;
-
-DROP TABLE `docgroups`;
 CREATE TABLE `docgroups`(
   id integer primary key,
   doctype_id integer,
@@ -79,7 +73,6 @@ CREATE TABLE `docusers`(
   auth_type text
 );
 
-INSERT INTO docusers (id,name,auth_type) VALUES (1,"admin","admin");
-INSERT INTO docusers (id,name,auth_type) VALUES (2,"user","user");
-INSERT INTO docusers (id,name,auth_type) VALUES (3,"guest","guest");
-
+INSERT INTO docusers (id, name, auth_type) VALUES (1, "admin", "admin");
+INSERT INTO docusers (id, name, auth_type) VALUES (2, "user", "user");
+INSERT INTO docusers (id, name, auth_type) VALUES (3, "guest", "guest");

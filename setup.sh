@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# データベースファルの作成
+
+sqlite3 docManager/lib/databases/docManager.db < docManager/lib/databases/docManager.sql
+
 # パスワードファイルの作成
 
 htpasswd -c -b .htpasswd admin admin
