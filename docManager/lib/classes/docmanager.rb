@@ -194,11 +194,13 @@ EOF
     if doctype_id > 0 then
       @nav += "<div class='title'><a href='./'>#{typ.get_name(doctype_id)}</a></div>"
       #grp.get_data_by_value("doctype_id", doctype_id).each do |row|
-      grp.get_data_by_doctype_id(doctype_id).each do |row|
+      #grp.get_data_by_doctype_id(doctype_id).each do |row|
+      grp.get_data_by_doctype_id_with_count(doctype_id).each do |row|
         @nav += "<div><a href='docdatas.rb?doctype_id=#{doctype_id}&docgroup_id=#{row["id"]}'>#{row["name"]} (#{row["datacount"]})</a></div>"
       end
     else
-      typ.get_data_with_order("num").each do |row|
+      #typ.get_data_with_order("num").each do |row|
+      typ.get_data_with_order_and_count("num").each do |row|
         @nav += "<div><a href='docdatas.rb?doctype_id=#{row["id"]}'>#{row["name"]} (#{row["datacount"]})</a></div>"
       end
       if is_admin() then

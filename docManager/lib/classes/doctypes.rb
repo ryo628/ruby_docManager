@@ -75,24 +75,35 @@ class DocTypes < Model
     return get_value_by_id("name", id)
   end
   
-  def get_data_with_order(column)
-    sql = <<EOF
+  def get_data_with_order_and_count(column)
+
+    sql = "SELECT * FROM #{@table} ORDER BY #{column}"
+    wk = @db.query(sql)
+    wk.each do |row|
+      sql = <<EOF
 SELECT
-  a.*,
   COUNT(c.id) AS datacount
 FROM
   doctypes a,
   docgroups b,
   docdatas c
 WHERE
+  a.id = #{row["id"]} AND
   a.id = b.doctype_id AND
   b.id = c.docgroup_id
 GROUP BY a.id
-ORDER BY a.#{column}
 EOF
+      tmp = @db.query(sql)
+      #puts row["id"].to_s + " : " + tmp.length.to_s
+      if tmp.length > 0 then
+        row["datacount"] = tmp[0]["datacount"].to_i
+      else
+        row["datacount"] = 0
+      end
+    end
     #puts "<pre>#{sql}</pre>"
-    #sql = "SELECT * FROM #{@table} ORDER BY #{column}"
-    return @db.query(sql)
+    #return @db.query(sql)
+    return wk
   end
   
   def get_select_form(name, id)

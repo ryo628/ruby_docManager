@@ -22,21 +22,37 @@ class DocGroups < Model
   
   def get_data_by_doctype_id(id)
     
-    sql = <<EOF
-SELECT
-  a.*,
-  COUNT(b.id) AS datacount
-FROM
-  docgroups a,
-  docdatas b
-WHERE
-  a.doctype_id=#{id} AND
-  a.id = b.docgroup_id
-GROUP BY a.id
-ORDER BY a.num
-EOF
-    #sql = "SELECT * FROM #{@table} WHERE doctype_id=#{id} ORDER BY num"
+    sql = "SELECT * FROM #{@table} WHERE doctype_id=#{id} ORDER BY num"
     vals = @db.query(sql)
+    
+  end
+  
+  def get_data_by_doctype_id_with_count(id)
+    
+    wk = get_data_by_doctype_id(id)
+    
+    wk.each do |row|
+    
+      sql = <<EOF
+SELECT
+  COUNT(id) AS datacount
+FROM
+  docdatas
+WHERE
+  docgroup_id = #{row["id"]}
+GROUP BY docgroup_id
+EOF
+      
+      tmp = @db.query(sql)
+      if tmp.length > 0 then
+        row["datacount"] = tmp[0]["datacount"]
+      else
+        row["datacount"] = 0
+      end
+      
+    end
+    
+    return wk
     
   end
   
@@ -66,7 +82,7 @@ EOF
     vals = get_data_by_doctype_id($_GET["doctype_id"].to_i)
     
     html = "<SELECT name='#{name}'>"
-    #html += "<option value=''></option>"
+    html += "<option value=''></option>"
     vals.each do |row|
       tmp = (row["id"].to_i==id.to_i) ? "selected" : ""
       html += "<OPTION value='#{row["id"]}' #{tmp}>#{row["name"]}</OPTION>"
