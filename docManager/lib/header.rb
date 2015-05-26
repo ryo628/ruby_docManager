@@ -8,6 +8,8 @@ require 'webrick'
 $cgi = CGI.new()
 $session = CGI::Session.new($cgi)
 
+#$session["user"] = "test"
+
 puts $cgi.header()
 
 $currentDir = Dir.getwd + "/lib/"
@@ -43,6 +45,8 @@ end
 
 $flg_debug = false
 
+debug("USER : " + $session["user"].to_s)
+
 $_GET = {}
 CGI::parse($cgi.query_string).each {|key, val|
  $_GET[key] = val[0]
@@ -52,6 +56,7 @@ $_POST = {}
 $cgi.params.each {|key, val|
   tmp = val[0]
   $_POST[key] = tmp
+  debug("#{key} : #{tmp}")
 }
 
 $db_host = "localhost"
@@ -61,6 +66,7 @@ $db_name = "docManager"
 
 $db = DBConnect.new($db_host, $db_user, $db_pass, $databaseDir + $db_name)
 
+$usr = DocUsers.new()
 $auth_type = ""
-set_auth_type()
+#set_auth_type()
 

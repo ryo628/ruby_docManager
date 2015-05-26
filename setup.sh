@@ -10,7 +10,7 @@ sqlite3 docManager/lib/databases/docManager.db < docManager/lib/databases/docMan
 #htpasswd -b .htpasswd user user
 #htpasswd -b .htpasswd guest guest
 
-mv .htpasswd /var/www/
+#mv .htpasswd /var/www/
 
 # ファイル属性の変更
 
