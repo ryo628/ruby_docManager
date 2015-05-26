@@ -2,6 +2,7 @@ class DocUsers < Model
   
   def initialize()
     set_value($db, "docusers")
+    @message = "&nbsp;"
   end
   
   def show(id)
@@ -67,8 +68,11 @@ class DocUsers < Model
       #cmd = "htpasswd -b /var/www/.htpasswd #{name} #{password}"
       #html += cmd
       #html += `#{cmd}`
-      html += "<pre>" + `ls -la /var/www/` + "</pre>"
+      #html += "<pre>" + `ls -la /var/www/` + "</pre>"
       #html += `/usr/bin/htpasswd -c ./files/.htpasswd #{name} #{password}`
+      
+      apply(vals)
+      
       html += "<div>パスワードを変更しました。</div>"
       
     else
@@ -89,6 +93,7 @@ class DocUsers < Model
    
   def get_auth_type()
     
+    debug("docUsers.get_auth_type()")
     ans = get_data_by_str("name", get_login_user())
     if ans.length > 0 then
       wk = ans[0]["auth_type"]
@@ -167,6 +172,100 @@ EOF
     end
     
     html += "</table>"
+    
+    return html
+    
+  end
+  
+  def is_login()
+    
+    debug("docUsers.is_login()")
+    
+    mode = $_POST["mode"].to_s
+    flg = false
+    
+    debug("mode = #{mode}")
+    
+    if mode == "logout" then
+      $session["user"] = ""
+      @message = "ログアウトしました"
+    elsif mode == "login" then
+      $session["user"] = login()
+    end
+    
+    debug("docUsers.is_login()")
+    debug("docUsers : is_login() : " + $session["user"].to_s)
+    
+    if $session["user"].to_s != "" then
+      flg = true
+    end
+    
+    $session.close
+    set_auth_type()
+    
+    debug("flg : #{flg}")
+    
+    return flg
+    
+  end
+  
+  def login()
+    
+    name = $_POST["name"]
+    pass = $_POST["pass"]
+    
+    sql = "SELECT * FROM docusers WHERE name = '#{name}' AND password = '#{pass}'"
+    #sql = "SELECT * FROM docusers WHERE name = '#{name}'"
+    tmp = @db.query(sql)
+    
+    if tmp.length == 0 then
+      name = ""
+      @message = "ユーザー名またはパスワードが間違っています"
+    end
+    
+    debug("docUsers : login() : #{name}")
+    debug(tmp.to_s)
+    
+    return name
+    
+  end
+  
+  def get_login_form()
+    
+    html = <<EOF
+<form method="post">
+  <input type="hidden" name="mode" value="login" />
+  <table>
+    <tr>
+      <td colspan=2>_%message%_</td>
+    </tr>
+    <tr>
+      <td>ユーザー名</td>
+      <td><input type="text" name="name" /></td>
+    </tr>
+    <tr>
+      <td>パスワード</td>
+      <td><input type="password" name="pass" /></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td><input type="submit" value="ログイン" /></td>
+    </tr>
+</form>
+EOF
+    
+    return make_html_by_values({"message" => @message}, html)
+    
+  end
+  
+  def get_logout_form()
+    
+    html = <<EOF
+<form method="post">
+  <input type="hidden" name="mode" value="logout" />
+  <input type="submit" name="submit" value="ログアウト" />
+</form>
+EOF
     
     return html
     

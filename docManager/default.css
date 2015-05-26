@@ -131,8 +131,8 @@ table.edit td {
 }
 
 #nav div.title {
-	padding: 10px 5px;
-	border-bottom: 1px solid #666;
+	padding: 10px 5px 0px;
+	border-bottom: 0px solid #666;
 	font-weight: bold;
 }
 

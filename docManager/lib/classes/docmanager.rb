@@ -10,6 +10,12 @@ class DocManager
     
     html = ""
     
+    if is_guest() then
+      if mode != "find_docdata" then
+        mode= ""
+      end
+    end
+    
     #obj = DocTypes.new()
     
     case mode
@@ -98,6 +104,8 @@ EOF
     menu = ""
     #html += "<div style='clear: both;'>#{$_GET.to_s} #{RUBY_VERSION}</div>"
     
+    @nav += "<div>#{$usr.get_logout_form()}</div>"
+    
     wk = {
       "title" => title,
       "head" => title,
@@ -110,6 +118,29 @@ EOF
     html = load_template(wk, "page.html")
     puts html
     #puts "work?"
+    
+  end
+  
+  def is_login()
+    debug("docManager.is_login()")
+    return $usr.is_login()
+  end
+  
+  def output_login_form()
+    
+    title = "文書管理"
+    
+    wk = {
+      "title" => title,
+      "head" => title,
+      "menu" => "",
+      "nav" => "&nbsp;",
+      "cont" => $usr.get_login_form(),
+      "foot" => "&copy; きむらしのぶ"
+    }
+    
+    html = load_template(wk, "page.html")
+    puts html
     
   end
   
@@ -143,6 +174,7 @@ EOF
     end
     
     @nav += "<div class='title'><a href='./'>戻る</a></div>"
+    @nav += "<div><hr size=1 /></div>"
     obj.get_data_with_order("num").each do |row|
       @nav += "<div><a href='doctypes.rb?doctype_id=#{row["id"]}'>#{row["name"]}</a></div>"
     end
@@ -166,6 +198,7 @@ EOF
     end
     
     @nav += "<div class='title'><a href='./'>戻る</a></div>"
+    @nav += "<div><hr size=1 /></div>"
     
     typ = DocTypes.new()
     typ.get_data_with_order("num").each do |row|
@@ -193,6 +226,7 @@ EOF
     
     if doctype_id > 0 then
       @nav += "<div class='title'><a href='./'>#{typ.get_name(doctype_id)}</a></div>"
+      @nav += "<div><hr size=1 /></div>"
       #grp.get_data_by_value("doctype_id", doctype_id).each do |row|
       #grp.get_data_by_doctype_id(doctype_id).each do |row|
       grp.get_data_by_doctype_id_with_count(doctype_id).each do |row|
@@ -211,11 +245,17 @@ EOF
       end
     end
     
-    #if !is_guest() then
-    #  @nav += "<div><a href='password.rb'>パスワード変更</a></div>"
-    #end
+    if !is_guest() then
+      @nav += "<div><hr size=1 /></div><div><a href='password.rb'>パスワード変更</a></div>"
+    end
     
     #@nav += "<div style='border-top: 0px solid #666; margin-top: 10px; color: #999;'>#{get_login_user()}</div>"
+    #usr = DocUsers.new()
+    #if usr.is_login() then
+    #  html += usr.get_logout_form()
+    #else
+    #  html += usr.get_login_form()
+    #end
     
     output("文書管理",html)
     
@@ -237,16 +277,19 @@ EOF
     if docuser_id > 0 then
       #html = obj.list_all()
       html = obj.edit(docuser_id)
-    elsif html == "" then
+    elsif html == "" && is_admin() then
       #html = obj.get_add_form()
       html = obj.list_all()
     end
     
     @nav += "<div class='title'><a href='./'>戻る</a></div>"
-    obj.get_data_with_order("name").each do |row|
-      @nav += "<div><a href='docusers.rb?docuser_id=#{row["id"]}'>#{row["name"]}</a></div>"
+    if is_admin() then
+      @nav += "<div><hr size=1 /></div>"
+      obj.get_data_with_order("name").each do |row|
+        @nav += "<div><a href='docusers.rb?docuser_id=#{row["id"]}'>#{row["name"]}</a></div>"
+      end
+      @nav += "<div><a href='docusers.rb'>一覧</a></div>"
     end
-    @nav += "<div><a href='docusers.rb'>一覧</a></div>"
     
     output("文書管理 - ユーザー",html)
     
@@ -256,10 +299,14 @@ EOF
     
     obj = DocUsers.new()
     
-    html = obj.get_password_form()
+    html = ""
     
     if !is_guest() then
-      html += main(obj)
+      html += obj.get_password_form()
+      
+      if !is_guest() then
+        html += main(obj)
+      end
     end
     
     @nav += "<div class='title'><a href='./'>戻る</a></div>"

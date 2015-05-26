@@ -46,10 +46,11 @@ end
 
 def get_login_user()
   
-  wk = ENV['REMOTE_USER'].to_s
-  if wk == "" then
-    wk = "admin"
-  end
+  #wk = ENV['REMOTE_USER'].to_s
+  wk = $session["user"].to_s
+  #if wk == "" then
+  #  wk = "admin"
+  #end
   
   return wk
 
@@ -57,8 +58,8 @@ end
 
 def set_auth_type()
   
-  usr = DocUsers.new()
-  $auth_type = usr.get_auth_type()
+  #usr = DocUsers.new()
+  $auth_type = $usr.get_auth_type()
   #$auth_type = "admin"
   
 end

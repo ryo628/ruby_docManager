@@ -5,8 +5,15 @@ load 'lib/header.rb'
 
 begin
   
+  debug("index.rb")
   obj = DocManager.new()
-  obj.top()
+  if obj.is_login() then
+    debug("obj.is_login() = true")
+    obj.top()
+  else
+    debug("obj.is_login() = false")
+    obj.output_login_form()
+  end
   
 rescue => ex
   

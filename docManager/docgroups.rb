@@ -6,7 +6,11 @@ load 'lib/header.rb'
 begin
   
   obj = DocManager.new()
-  obj.docgroups()
+  if obj.is_login() then
+    obj.docgroups()
+  else
+    obj.output_login_form()
+  end
   
 rescue => ex
   

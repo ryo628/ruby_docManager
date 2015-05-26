@@ -4,11 +4,11 @@
 
 sqlite3 docManager/lib/databases/docManager.db < docManager/lib/databases/docManager.sql
 
-# パスワードファイルの作成
+# パスワードファイルの作成(不要)
 
-htpasswd -c -b .htpasswd admin admin
-htpasswd -b .htpasswd user user
-htpasswd -b .htpasswd guest guest
+#htpasswd -c -b .htpasswd admin admin
+#htpasswd -b .htpasswd user user
+#htpasswd -b .htpasswd guest guest
 
 mv .htpasswd /var/www/
 

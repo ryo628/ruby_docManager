@@ -159,14 +159,21 @@ EOF
     html = ""
     
     if $_GET["docgroup_id"].to_i > 0 then
-      
-      html = <<EOF
+      if !is_guest() then
+        html = <<EOF
 <form method='post'>
   <input type="hidden" name="id" value="0" />
   <input type="hidden" name="mode" value="add_#{@type}" />
   <input type="submit" name="submit" value="追加" />
 </form>
 EOF
+      else
+        html = <<EOF
+<form>
+  <input type="button" name="submit" value="追加" onClick='alert("利用できません");' />
+</form>
+EOF
+      end
     end
     
     return html
