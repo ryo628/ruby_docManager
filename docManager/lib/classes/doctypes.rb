@@ -13,7 +13,6 @@ class DocTypes < Model
   
   def edit(id)
     
-    #vals = @mdl.get_data_by_id(id)
     vals = get_data_by_id(id)
     return get_edit_form(vals)
     
@@ -21,7 +20,6 @@ class DocTypes < Model
   
   def add()
     
-    #vals = @mdl.get_blank_data()
     vals = get_blank_data()
     
     vals["list_header"] = load_template({}, "list_header.html")
@@ -93,22 +91,19 @@ WHERE
   b.id = c.docgroup_id
 GROUP BY a.id
 EOF
+      
       tmp = @db.query(sql)
-      #puts row["id"].to_s + " : " + tmp.length.to_s
       if tmp.length > 0 then
         row["datacount"] = tmp[0]["datacount"].to_i
       else
         row["datacount"] = 0
       end
     end
-    #puts "<pre>#{sql}</pre>"
-    #return @db.query(sql)
     return wk
   end
   
   def get_select_form(name, id)
     
-    #vals = get_data()
     vals = get_data_with_order("name")
     html = "<SELECT name='#{name}'>"
     vals.each do |row|
@@ -122,8 +117,6 @@ EOF
   
   def list_all()
     
-    #return get_list_table(get_data())
-    #return get_list_table(get_data_with_order("name"))
     return get_list_table(get_data_with_order("num"))
     
   end

@@ -6,7 +6,6 @@ class DocGroups < Model
   
   def edit(id)
     
-    #vals = @mdl.get_data_by_id(id)
     vals = get_data_by_id(id)
     return get_edit_form(vals)
     
@@ -14,7 +13,6 @@ class DocGroups < Model
   
   def add()
     
-    #vals = @mdl.get_blank_data()
     vals = get_blank_data()
     return get_edit_form(vals)
     
@@ -76,9 +74,6 @@ EOF
   
   def get_select_form(name, id)
     
-    #vals = get_data()
-    #vals = get_data_with_order("name")
-    #vals = get_data_by_value("doctype_id", $_GET["doctype_id"].to_i)
     vals = get_data_by_doctype_id($_GET["doctype_id"].to_i)
     
     html = "<SELECT name='#{name}'>"
@@ -93,11 +88,6 @@ EOF
   end
   
   def list_all()
-    
-    #return get_list_table(get_data())
-    #return get_list_table(get_data_with_order("name"))
-    #return get_list_table(get_data_with_order("name"))
-    #return get_list_table(get_data_by_value("doctype_id",$_GET["doctype_id"].to_i))
     
     return get_list_table(get_data_by_doctype_id($_GET["doctype_id"].to_i))
     

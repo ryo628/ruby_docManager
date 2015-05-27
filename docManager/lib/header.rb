@@ -3,12 +3,9 @@
 require 'cgi'
 require 'cgi/session'
 require 'sqlite3'
-require 'webrick'
 
 $cgi = CGI.new()
 $session = CGI::Session.new($cgi)
-
-#$session["user"] = "test"
 
 puts $cgi.header()
 
@@ -19,28 +16,20 @@ $templateDir = $currentDir + "templates/"
 $databaseDir = $currentDir + "databases/"
 
 #load $classDir + ""
-load $classDir + "tools.rb"
-load $classDir + "dbconnect_sqlite3.rb"
-load $classDir + "model.rb"
-load $classDir + "docusers.rb"
-load $classDir + "doctypes.rb"
-load $classDir + "docgroups.rb"
-load $classDir + "docdatas.rb"
-load $classDir + "files.rb"
-load $classDir + "docmanager.rb"
+classes = [
+  "tools.rb",
+  "dbconnect_sqlite3.rb",
+  "model.rb",
+  "docusers.rb",
+  "doctypes.rb",
+  "docgroups.rb",
+  "docdatas.rb",
+  "files.rb",
+  "docmanager.rb"
+]
 
-def test()
-  
-  obj = DocTypes.new()
-  
-  wk = {}
-  #wk["cont"] = $db.list_fields("doctypes")
-  #wk["cont"] = load_template(wk,"edit_doctype.html")
-  wk["cont"] = obj.list_all()
-  
-  html = load_template(wk, "page.html")
-  puts html
-  
+classes.each do |c|
+  load $classDir + c
 end
 
 $flg_debug = false

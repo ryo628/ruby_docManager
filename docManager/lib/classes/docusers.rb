@@ -60,17 +60,6 @@ class DocUsers < Model
     
     if password != "" then
       
-      #htpd = WEBrick::HTTPAuth::Htpasswd.new('./htpasswd')
-      #htpd.set_passwd(nil, name, password)
-      #htpd.flush
-      
-      #cmd = "/usr/bin/sudo /usr/bin/htpasswd -b /html/www/.htpasswd #{name} #{password}"
-      #cmd = "htpasswd -b /var/www/.htpasswd #{name} #{password}"
-      #html += cmd
-      #html += `#{cmd}`
-      #html += "<pre>" + `ls -la /var/www/` + "</pre>"
-      #html += `/usr/bin/htpasswd -c ./files/.htpasswd #{name} #{password}`
-      
       apply(vals)
       
       html += "<div>パスワードを変更しました。</div>"
@@ -237,11 +226,11 @@ EOF
   <input type="hidden" name="mode" value="login" />
   <table>
     <tr>
-      <td colspan=2>_%message%_</td>
+      <td colspan=2><div id="login_message">_%message%_</div></td>
     </tr>
     <tr>
       <td>ユーザー名</td>
-      <td><input type="text" name="name" /></td>
+      <td><input type="text" name="name" onfocus="getDiv('login_message').innerHTML='&nbsp;'" /></td>
     </tr>
     <tr>
       <td>パスワード</td>
