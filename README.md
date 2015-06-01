@@ -1,4 +1,4 @@
-# ruby_docManager
+# A documents manager made by Ruby
 
 ## How to setup
 
