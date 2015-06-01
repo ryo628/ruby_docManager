@@ -173,21 +173,24 @@ EOF
     if !is_guest() then
     
       html = <<EOF
-<form method='post'>
+<form method='post' name='docdata#{id}'>
   <input type="hidden" name="id" value="#{id}" />
 <!--
   <input type="hidden" name="mode" value="edit_#{@type}" />
   <input type="submit" name="submit" value="編集" />
   <input type="submit" name="submit" value="表示" onclick="this.form.mode.value='show_#{@type}';" />
+  <input type="submit" name="submit" value="表示" />
 -->
   <input type="hidden" name="mode" value="show_#{@type}" />
-  <input type="submit" name="submit" value="表示" />
+  <img src="pen.png" width="24" style="cursor: pointer;" onClick="document.docdata#{id}.submit();" />
 </form>
 EOF
     
     else
       html = <<EOF
+<!--
 <input type='button' value='表示' onclick='alert("利用できません");' />
+-->&nbsp;
 EOF
     end
     

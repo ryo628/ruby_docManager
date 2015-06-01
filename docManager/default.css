@@ -28,7 +28,7 @@ div {
 	text-align: left;
 }
 
-form input, form textarea {
+form input, form textarea, from select {
 	margin: 5px;
 	padding: 5px;
 }
@@ -158,3 +158,6 @@ table.edit td {
 	font-size: 18pt;
 }
 
+#login_message {
+	color: #FF0000;
+}

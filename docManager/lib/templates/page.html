@@ -5,6 +5,31 @@
 	<title>_%title%_</title>
 	<link href="default.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="./scripts/main.js"></script>
+<script>
+
+function show_nav() {
+	nav = getDiv("nav");
+	nav.style.display = "";
+	cont = getDiv("cont");
+	cont.style.width = "72%";
+}
+
+function hide_nav() {
+	nav = getDiv("nav");
+	nav.style.display = "none";
+	cont = getDiv("cont");
+	cont.style.width = "99%";
+}
+
+function ctl_nav() {
+	obj = getDiv("nav");
+	if(obj.style.display == "none") {
+		show_nav();
+	} else {
+		hide_nav();
+	}
+}
+</script>
 </head>
 <body onload="init()">
 <!--
@@ -12,7 +37,7 @@
     _%menu%_
   </div>
 -->
-  <div id="head">
+  <div id="head" onClick="ctl_nav();">
     _%title%_
   </div>
   <div id="nav">
