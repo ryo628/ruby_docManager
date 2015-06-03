@@ -240,6 +240,7 @@ EOF
       <td>&nbsp;</td>
       <td><input type="submit" value="ログイン" /></td>
     </tr>
+  </table>
 </form>
 EOF
     
