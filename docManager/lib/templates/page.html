@@ -1,34 +1,38 @@
 <html>
 <head>
-	<meta name="viewport" content="width=1024">
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>_%title%_</title>
-	<link href="default.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="./scripts/main.js"></script>
+  <meta name="viewport" content="width=1024">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>_%title%_</title>
+  <link href="default.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="./scripts/main.js"></script>
 <script>
 
 function show_nav() {
-	var nav = getDiv("nav");
-	nav.style.display = "";
-	var cont = getDiv("cont");
-	cont.style.width = "72%";
+  //alert("show_nav");
+  var nav = getDiv("nav");
+  nav.style.display = "block";
+  var cont = getDiv("cont");
+  cont.style.width = "72%";
 }
 
 function hide_nav() {
-	var nav = getDiv("nav");
-	nav.style.display = "none";
-	var cont = getDiv("cont");
-	cont.style.width = "99%";
+  //alert("hide_nav");
+  var nav = getDiv("nav");
+  nav.style.display = "none";
+  var cont = getDiv("cont");
+  cont.style.width = "99%";
 }
 
-function ctl_nav() {
-	var obj = getDiv("nav");
-	if(obj.style.display == "none") {
-		show_nav();
-	} else {
-		hide_nav();
-	}
+function nav_ctl() {
+  obj = getDiv("nav");
+  //alert(obj.style.display);
+  if(obj.style.display == "none") {
+    show_nav();
+  } else {
+    hide_nav();
+  }
 }
+
 </script>
 </head>
 <body onload="init()">
@@ -37,8 +41,11 @@ function ctl_nav() {
     _%menu%_
   </div>
 -->
-  <div id="head" onClick="ctl_nav();">
+  <div id="head">
     _%title%_
+  </div>
+  <div id="nav_ctl" onClick="nav_ctl();">
+    <a href='#'>□ メニュー表示ON/OFF</a>
   </div>
   <div id="nav">
     _%nav%_
@@ -53,5 +60,6 @@ function ctl_nav() {
 		<div id="page">_%foot%_</div>
 	</div>
 -->
+  <div style="clear:both;">&nbsp;</div>
 </body>
 </html>

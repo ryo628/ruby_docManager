@@ -8,6 +8,15 @@ def debug(txt)
   
 end
 
+def output_log(txt)
+  
+  if $flg_debug then
+    f = File.open($currentDir + "access.log",'a')
+    f << "#{Time.now} #{txt}\n"
+    f.close()
+  end
+end
+
 def get_dir()
   
   return Dir.getwd + "/"

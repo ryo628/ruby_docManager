@@ -159,7 +159,7 @@ class Model
     
     sql = "DELETE FROM `#{@table}` WHERE id=#{id}"
     #print sql
-    exec(sql)
+    @db.exec(sql)
     
   end
   

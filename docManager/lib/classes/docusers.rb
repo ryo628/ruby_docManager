@@ -60,6 +60,17 @@ class DocUsers < Model
     
     if password != "" then
       
+      #htpd = WEBrick::HTTPAuth::Htpasswd.new('./htpasswd')
+      #htpd.set_passwd(nil, name, password)
+      #htpd.flush
+      
+      #cmd = "/usr/bin/sudo /usr/bin/htpasswd -b /html/www/.htpasswd #{name} #{password}"
+      #cmd = "htpasswd -b /var/www/.htpasswd #{name} #{password}"
+      #html += cmd
+      #html += `#{cmd}`
+      #html += "<pre>" + `ls -la /var/www/` + "</pre>"
+      #html += `/usr/bin/htpasswd -c ./files/.htpasswd #{name} #{password}`
+      
       apply(vals)
       
       html += "<div>パスワードを変更しました。</div>"
@@ -203,13 +214,23 @@ EOF
     name = $_POST["name"]
     pass = $_POST["pass"]
     
-    sql = "SELECT * FROM docusers WHERE name = '#{name}' AND password = '#{pass}'"
-    #sql = "SELECT * FROM docusers WHERE name = '#{name}'"
+    #sql = "SELECT * FROM docusers WHERE name = '#{name}' AND password = '#{pass}'"
+    sql = "SELECT * FROM docusers WHERE name = '#{name}'"
     tmp = @db.query(sql)
     
     if tmp.length == 0 then
       name = ""
       @message = "ユーザー名またはパスワードが間違っています"
+    else
+      
+      ad = ADUser.new()
+      if ad.exists(name, pass) then
+        
+      else
+        name = ""
+        @message = "ユーザー名またはパスワードが間違っています"
+      end
+      
     end
     
     debug("docUsers : login() : #{name}")
@@ -230,11 +251,11 @@ EOF
     </tr>
     <tr>
       <td>ユーザー名</td>
-      <td><input type="text" name="name" onfocus="getDiv('login_message').innerHTML='&nbsp;'" /></td>
+      <td><input type="text" name="name" onFocus="getDiv('login_message').innerHTML='&nbsp;';" /></td>
     </tr>
     <tr>
       <td>パスワード</td>
-      <td><input type="password" name="pass" /></td>
+      <td><input type="password" name="pass" onFocus="getDiv('login_message').innerHTML='&nbsp;';" /></td>
     </tr>
     <tr>
       <td>&nbsp;</td>
@@ -250,10 +271,21 @@ EOF
   
   def get_logout_form()
     
+    option = ""
+    
+    if $flg_ad == false then
+      if !is_guest() then
+      option = <<EOF
+<input type="button" name="" value="パスワード変更" onClick="location.href='password.rb';" />
+EOF
+      end
+    end
+    
     html = <<EOF
 <form method="post">
   <input type="hidden" name="mode" value="logout" />
   <input type="submit" name="submit" value="ログアウト" />
+  #{option}
 </form>
 EOF
     

@@ -2,7 +2,6 @@ class DocManager
   
   def initialize()
     @nav = ""
-    @foot = "&copy; きむらしのぶ"
   end
   
   def main(obj)
@@ -16,6 +15,10 @@ class DocManager
         mode= ""
       end
     end
+    
+    #obj = DocTypes.new()
+    
+    output_log("execute main script. mode = #{mode}")
     
     case mode
     when "edit_docuser"
@@ -31,6 +34,7 @@ class DocManager
     when "change_password"
       debug("CHANGE_PASSWORD")
       html = obj.set_password($_POST)
+      #html += obj.list_all()
       
     when "edit_doctype"
       debug("EDIT_DOCTYPE")
@@ -66,7 +70,13 @@ class DocManager
     when "apply_docdata"
       debug("APPLY_DOCDATA")
       id = obj.apply($_POST)
-      html += obj.show(id)
+      #html += obj.show(id)
+      
+      if id.to_i > 0 then
+        html += obj.show(id)
+      else
+        html += "削除しました"
+      end
       #html += obj.list_all()
     when "find_docdata"
       debug("FIND_DOCDATA")
@@ -81,6 +91,7 @@ class DocManager
       
     else
       debug("ELSE")
+      #html += obj.list_all()
     end
     
     return html
@@ -89,9 +100,20 @@ class DocManager
   
   def output(title, html)
     
+    menu = <<EOF
+<a href="./">TOP</a>
+<!--
+<a href="doctypes.rb">種類</a>
+<a href="docgroups.rb">分類</a>
+<a href="docdatas.rb">データ</a>
+<a href="docusers.rb">ユーザー</a>
+-->
+EOF
     menu = ""
+    #html += "<div style='clear: both;'>#{$_GET.to_s} #{RUBY_VERSION}</div>"
     
-    @nav = "<div>#{$usr.get_logout_form()}</div>" + @nav
+    #@nav += "<div>&nbsp;</div><div>#{$usr.get_logout_form()}</div>"
+    @nav = $usr.get_logout_form() + @nav
     
     wk = {
       "title" => title,
@@ -99,11 +121,14 @@ class DocManager
       "menu" => menu,
       "nav" => @nav,
       "cont" => html,
-      "foot" => @foot
+      "foot" => "&copy; きむらしのぶ"
     }
     
     html = load_template(wk, "page.html")
     puts html
+    #puts "work?"
+    
+    output_log("output html.")
     
   end
   
@@ -122,7 +147,7 @@ class DocManager
       "menu" => "",
       "nav" => "&nbsp;",
       "cont" => $usr.get_login_form(),
-      "foot" => @foot
+      "foot" => "&copy; きむらしのぶ"
     }
     
     html = load_template(wk, "page.html")
@@ -132,6 +157,8 @@ class DocManager
   
   def top()
     
+    #html = main()
+    #output("文書管理",html)
     docdatas()
     
   end
@@ -150,8 +177,10 @@ class DocManager
     end
     
     if doctype_id > 0 then
+      #html = obj.list_all()
       html = obj.edit(doctype_id)
     elsif html == "" then
+      #html = obj.get_add_form()
       html = obj.list_all()
     end
     
@@ -209,10 +238,13 @@ class DocManager
     if doctype_id > 0 then
       @nav += "<div class='title'><a href='./'>#{typ.get_name(doctype_id)}</a></div>"
       @nav += "<div><hr size=1 /></div>"
+      #grp.get_data_by_value("doctype_id", doctype_id).each do |row|
+      #grp.get_data_by_doctype_id(doctype_id).each do |row|
       grp.get_data_by_doctype_id_with_count(doctype_id).each do |row|
         @nav += "<div><a href='docdatas.rb?doctype_id=#{doctype_id}&docgroup_id=#{row["id"]}'>#{row["name"]} (#{row["datacount"]})</a></div>"
       end
     else
+      #typ.get_data_with_order("num").each do |row|
       typ.get_data_with_order_and_count("num").each do |row|
         @nav += "<div><a href='docdatas.rb?doctype_id=#{row["id"]}'>#{row["name"]} (#{row["datacount"]})</a></div>"
       end
@@ -222,10 +254,19 @@ class DocManager
         @nav += "<div><a href='docgroups.rb'>分類管理</a></div>"
         @nav += "<div><a href='docusers.rb'>ユーザー管理</a></div>"
       end
-      if !is_guest() then
-        @nav += "<div><hr size=1 /></div><div><a href='password.rb'>パスワード変更</a></div>"
-      end
     end
+    
+    #if !is_guest() then
+    #  @nav += "<div><hr size=1 /></div><div><a href='password.rb'>パスワード変更</a></div>"
+    #end
+    
+    #@nav += "<div style='border-top: 0px solid #666; margin-top: 10px; color: #999;'>#{get_login_user()}</div>"
+    #usr = DocUsers.new()
+    #if usr.is_login() then
+    #  html += usr.get_logout_form()
+    #else
+    #  html += usr.get_login_form()
+    #end
     
     output("文書管理",html)
     
@@ -245,8 +286,10 @@ class DocManager
     end
     
     if docuser_id > 0 then
+      #html = obj.list_all()
       html = obj.edit(docuser_id)
     elsif html == "" && is_admin() then
+      #html = obj.get_add_form()
       html = obj.list_all()
     end
     
@@ -269,10 +312,9 @@ class DocManager
     
     html = ""
     
-    if !is_guest() then
-      html += obj.get_password_form()
-      
+    if $flg_ad == false then
       if !is_guest() then
+        html += obj.get_password_form()
         html += main(obj)
       end
     end

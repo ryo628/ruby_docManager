@@ -13,6 +13,9 @@
 body {
 	background-color: #FFF;
 	text-align: center;
+/*
+	padding-top: 20px;
+*/
 }
 
 a {
@@ -28,7 +31,7 @@ div {
 	text-align: left;
 }
 
-form input, form textarea, from select {
+form input, form textarea, form select, form button {
 	margin: 5px;
 	padding: 5px;
 }
@@ -103,10 +106,17 @@ table.edit td {
 	padding: 10px;
 	font-size: 18pt;
 	font-weight: bold;
-	background-color: #CCC;
 	line-height: 50px;
-	border-bottom: 1px solid #666;
 	margin-bottom: 20px;
+	background-color: #CCC;
+	border-bottom: 1px solid #666;
+	display: none;
+}
+
+#nav_ctl {
+	border: 0px solid #F00;
+	padding: 5px;
+	text-align: right;
 }
 
 #nav {
@@ -115,6 +125,8 @@ table.edit td {
 */
 	width: 27%;
 	float: left;
+	
+	clear: both;
 	
 	border: 0px solid #666;
 	margin-left: 2px;
@@ -159,5 +171,5 @@ table.edit td {
 }
 
 #login_message {
-	color: #FF0000;
+	color: #F00;
 }

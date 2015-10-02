@@ -3,9 +3,12 @@
 require 'cgi'
 require 'cgi/session'
 require 'sqlite3'
+#require 'webrick'
 
 $cgi = CGI.new()
 $session = CGI::Session.new($cgi)
+
+#$session["user"] = "test"
 
 puts $cgi.header()
 
@@ -16,23 +19,21 @@ $templateDir = $currentDir + "templates/"
 $databaseDir = $currentDir + "databases/"
 
 #load $classDir + ""
-classes = [
-  "tools.rb",
-  "dbconnect_sqlite3.rb",
-  "model.rb",
-  "docusers.rb",
-  "doctypes.rb",
-  "docgroups.rb",
-  "docdatas.rb",
-  "files.rb",
-  "docmanager.rb"
-]
-
-classes.each do |c|
-  load $classDir + c
-end
+load $classDir + "aduser.rb"
+load $classDir + "tools.rb"
+load $classDir + "dbconnect_sqlite3.rb"
+load $classDir + "model.rb"
+load $classDir + "docusers.rb"
+load $classDir + "doctypes.rb"
+load $classDir + "docgroups.rb"
+load $classDir + "docdatas.rb"
+load $classDir + "files.rb"
+load $classDir + "docmanager.rb"
 
 $flg_debug = false
+$flg_ad = false
+
+output_log("loaded classes.")
 
 debug("USER : " + $session["user"].to_s)
 
@@ -58,4 +59,6 @@ $db = DBConnect.new($db_host, $db_user, $db_pass, $databaseDir + $db_name)
 $usr = DocUsers.new()
 $auth_type = ""
 #set_auth_type()
+
+output_log("preset parameters.")
 

@@ -1,21 +1,35 @@
 #!/bin/sh
 
-# データベースファルの作成
+libdir="docManager/lib"
+appname="docManager"
+wwwuser="apache"
 
-sqlite3 docManager/lib/databases/docManager.db < docManager/lib/databases/docManager.sql
+## データベースファルの作成
 
-# パスワードファイルの作成(不要)
+sqlite3 ${libdir}/databases/${appname}.db < ${libdir}/databases/${appname}.sql
 
-#htpasswd -c -b .htpasswd admin admin
-#htpasswd -b .htpasswd user user
-#htpasswd -b .htpasswd guest guest
+## ファイル保存フォルダの作成
 
-#mv .htpasswd /var/www/
+chown apache ${appname}/files
 
-# ファイル属性の変更
+# Root権限がない場合
+# chmod 777 ${appname}/files
 
-chmod 755 docManager/*.rb
-chmod 777 docManager/files
-chmod 777 docManager/lib/databases
-chmod 777 docManager/lib/databases/docManager.db
+## ファイル属性の変更
+
+chmod 755 ${appname}/*.rb
+chown ${wwwuser} ${libdir}/databases
+chown ${wwwuser} ${libdir}/databases/${appname}.db
+
+# Root権限がない場合
+# chmod 777 ${libdir}/databases
+# chmod 777 ${libdir}/databases/${appname}.db
+
+## ログファイルの作成
+
+touch ${libdir}/aduser.log
+chown apache ${libdir}/aduser.log
+
+# Root権限がない場合
+# chmod 666 ${libdir}/login.log
 
