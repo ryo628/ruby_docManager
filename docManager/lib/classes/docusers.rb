@@ -214,8 +214,11 @@ EOF
     name = $_POST["name"]
     pass = $_POST["pass"]
     
-    #sql = "SELECT * FROM docusers WHERE name = '#{name}' AND password = '#{pass}'"
-    sql = "SELECT * FROM docusers WHERE name = '#{name}'"
+    if $flg_ad then
+      sql = "SELECT * FROM docusers WHERE name = '#{name}'"
+    else
+      sql = "SELECT * FROM docusers WHERE name = '#{name}' AND password = '#{pass}'"
+    end
     tmp = @db.query(sql)
     
     if tmp.length == 0 then
@@ -223,12 +226,14 @@ EOF
       @message = "ユーザー名またはパスワードが間違っています"
     else
       
-      ad = ADUser.new()
-      if ad.exists(name, pass) then
-        
-      else
-        name = ""
-        @message = "ユーザー名またはパスワードが間違っています"
+      if $flg_ad then
+        ad = ADUser.new()
+        if ad.exists(name, pass) then
+          #
+        else
+          name = ""
+          @message = "ユーザー名またはパスワードが間違っています"
+        end
       end
       
     end

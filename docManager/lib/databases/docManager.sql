@@ -73,8 +73,6 @@ CREATE TABLE `docusers`(
   auth_type text
 );
 
-INSERT INTO docusers VALUES
-  (1, "admin", "admin", "admin"),
-  (2, "user", "user", "user"),
-  (3, "guest", "guest", "guest")
-;
+INSERT INTO docusers VALUES (1, "admin", "admin", "admin");
+INSERT INTO docusers VALUES (2, "user", "user", "user");
+INSERT INTO docusers VALUES (3, "guest", "guest", "guest");
